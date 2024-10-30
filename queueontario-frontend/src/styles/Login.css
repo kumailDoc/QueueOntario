@@ -1,0 +1,129 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; 
+  overflow: hidden;
+}
+
+header {
+  background-color: #4CAF50; 
+  color: white; 
+  width: 100%; 
+  padding: 1rem 0;
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;
+  position: fixed; 
+}
+
+header {
+  top: 0; 
+  left: 0; 
+  right: 0;
+}
+
+footer {
+  bottom: 0; 
+  left: 0; 
+  right: 0;
+}
+
+nav ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: flex;
+}
+
+nav a {
+  text-decoration: none;
+  color: white; 
+  margin: 0 15px; 
+  font-weight: bold;
+}
+
+
+.signin-wrapper {
+  text-align: center;
+}
+
+
+.signin-container {
+  background-color: #fff;
+  padding: 3rem; 
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 500px; 
+  margin: 0 auto; 
+  position: absolute; 
+  top: 50%; 
+  left: 50%; 
+  transform: translate(-50%, -50%); 
+  border: 1px solid #ccc;
+}
+
+
+.signin-form input, .signin-form button {
+  width: calc(100% - 24px); 
+  padding: 15px; 
+  margin: 10px 0; 
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box; 
+}
+
+
+.signin-form button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  padding: 15px 0; 
+  margin-top: 20px; 
+}
+
+.signin-form button:hover {
+  opacity: 0.9; 
+}
+
+
+.signin-form a, .signup-link a {
+  color: #4CAF50; 
+  text-decoration: none;
+  margin: 0;
+}
+
+.forgot-password {
+  display: block; 
+  text-align: right; 
+  margin-top: 10px;
+}
+
+.signup-link {
+  text-align: center;
+  margin-top: 30px;
+}
+
+
+@media (max-height: 500px) {
+  .signin-container {
+    position: relative;
+    transform: none;
+    margin-top: 5rem; 
+  }
+
+  body, html {
+    height: auto;
+    overflow: auto; 
+  }
+}
+
+.logo {
+  width: 250px; 
+  height: auto; 
+}
