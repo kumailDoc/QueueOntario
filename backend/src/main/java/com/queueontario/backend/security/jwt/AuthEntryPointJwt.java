@@ -1,4 +1,4 @@
-package backend.src.main.java.security.jwt;
+package com.queueontario.backend.security.jwt;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

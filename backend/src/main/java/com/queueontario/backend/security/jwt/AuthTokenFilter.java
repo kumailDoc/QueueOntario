@@ -1,4 +1,4 @@
-package backend.src.main.java.security.jwt;
+package com.queueontario.backend.security.jwt;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -12,14 +12,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
-import backend.src.main.java.security.services.UserDetailsServiceImpl;
+import com.queueontario.backend.security.services.UserDetailsServiceImpl;
 
 import java.io.IOException;
 
 
 public class AuthTokenFilter extends OncePerRequestFilter {
     @Autowired
-    private backend.src.main.java.security.jwt.JwtUtils jwtUtils;
+    private JwtUtils jwtUtils;
 
     @Autowired
     private UserDetailsServiceImpl userDetailsService;

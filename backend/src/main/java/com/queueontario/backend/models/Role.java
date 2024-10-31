@@ -1,4 +1,4 @@
-package models;
+package com.queueontario.backend.models;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -7,13 +7,13 @@ public class Role {
     @Id
     private String id;
 
-    private models.ERole name;
+    private ERole name;
 
     public Role() {
 
     }
 
-    public Role(models.ERole name) {
+    public Role(ERole name) {
         this.name = name;
     }
 
@@ -25,11 +25,11 @@ public class Role {
         this.id = id;
     }
 
-    public models.ERole getName() {
+    public ERole getName() {
         return name;
     }
 
-    public void setName(models.ERole name) {
+    public void setName(ERole name) {
         this.name = name;
     }
 }

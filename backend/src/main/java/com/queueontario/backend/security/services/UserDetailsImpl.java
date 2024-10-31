@@ -1,7 +1,7 @@
-package backend.src.main.java.security.services;
+package com.queueontario.backend.security.services;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import models.User;
+import com.queueontario.backend.models.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

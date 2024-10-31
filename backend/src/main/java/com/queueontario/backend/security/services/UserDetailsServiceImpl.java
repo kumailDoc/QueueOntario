@@ -1,14 +1,14 @@
-package backend.src.main.java.security.services;
+package com.queueontario.backend.security.services;
 
 
-import models.User;
+import com.queueontario.backend.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import backend.src.main.java.repository.UserRepository;
+import com.queueontario.backend.repository.UserRepository;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {

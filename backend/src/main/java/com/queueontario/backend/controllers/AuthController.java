@@ -1,9 +1,9 @@
-package backend.src.main.java.controllers;
+package com.queueontario.backend.controllers;
 
 import jakarta.validation.Valid;
-import models.ERole;
-import models.Role;
-import models.User;
+import com.queueontario.backend.models.ERole;
+import com.queueontario.backend.models.Role;
+import com.queueontario.backend.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
@@ -14,14 +14,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import backend.src.main.java.payload.request.LoginRequest;
-import backend.src.main.java.payload.request.SignupRequest;
-import backend.src.main.java.payload.response.MessageResponse;
-import backend.src.main.java.payload.response.UserInfoResponse;
-import backend.src.main.java.repository.RoleRepository;
-import backend.src.main.java.repository.UserRepository;
-import backend.src.main.java.security.jwt.JwtUtils;
-import backend.src.main.java.security.services.UserDetailsImpl;
+import com.queueontario.backend.payload.request.LoginRequest;
+import com.queueontario.backend.payload.request.SignupRequest;
+import com.queueontario.backend.payload.response.MessageResponse;
+import com.queueontario.backend.payload.response.UserInfoResponse;
+import com.queueontario.backend.repository.RoleRepository;
+import com.queueontario.backend.repository.UserRepository;
+import com.queueontario.backend.security.jwt.JwtUtils;
+import com.queueontario.backend.security.services.UserDetailsImpl;
 
 import java.util.HashSet;
 import java.util.List;
