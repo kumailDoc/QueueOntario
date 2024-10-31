@@ -1,4 +1,4 @@
-package backend.src.main.java.payload.request;
+package com.queueontario.backend.payload.request;
 
 import jakarta.validation.constraints.NotBlank;
 

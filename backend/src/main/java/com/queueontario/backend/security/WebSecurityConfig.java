@@ -1,4 +1,4 @@
-package backend.src.main.java.security;
+package com.queueontario.backend.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -13,9 +13,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import backend.src.main.java.security.jwt.AuthEntryPointJwt;
-import backend.src.main.java.security.jwt.AuthTokenFilter;
-import backend.src.main.java.security.services.UserDetailsServiceImpl;
+import com.queueontario.backend.security.jwt.AuthEntryPointJwt;
+import com.queueontario.backend.security.jwt.AuthTokenFilter;
+import com.queueontario.backend.security.services.UserDetailsServiceImpl;
 
 
 @Configuration

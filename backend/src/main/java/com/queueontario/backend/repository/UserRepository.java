@@ -1,6 +1,6 @@
-package backend.src.main.java.repository;
+package com.queueontario.backend.repository;
 
-import models.User;
+import com.queueontario.backend.models.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package backend.src.main.java.payload.response;
+package com.queueontario.backend.payload.response;
 
 public class MessageResponse {
     private String message;

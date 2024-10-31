@@ -1,7 +1,7 @@
-package backend.src.main.java.repository;
+package com.queueontario.backend.repository;
 
-import models.ERole;
-import models.Role;
+import com.queueontario.backend.models.ERole;
+import com.queueontario.backend.models.Role;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Optional;
