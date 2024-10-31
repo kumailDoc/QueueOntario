@@ -1,4 +1,4 @@
-package payload.response;
+package backend.src.main.java.payload.response;
 
 public class MessageResponse {
     private String message;

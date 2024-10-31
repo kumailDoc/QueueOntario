@@ -1,15 +1,14 @@
 package models;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Document(collection = "users")
 public class User {
@@ -30,7 +29,7 @@ public class User {
     private String password;
 
     @DBRef
-    private Set<Role> roles = new HashSet<>();
+    private Set<models.Role> roles = new HashSet<>();
 
     public User() {
     }
@@ -73,11 +72,11 @@ public class User {
         this.password = password;
     }
 
-    public Set<Role> getRoles() {
+    public Set<models.Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<Role> roles) {
+    public void setRoles(Set<models.Role> roles) {
         this.roles = roles;
     }
 }

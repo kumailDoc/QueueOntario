@@ -7,13 +7,13 @@ public class Role {
     @Id
     private String id;
 
-    private ERole name;
+    private models.ERole name;
 
     public Role() {
 
     }
 
-    public Role(ERole name) {
+    public Role(models.ERole name) {
         this.name = name;
     }
 
@@ -25,11 +25,11 @@ public class Role {
         this.id = id;
     }
 
-    public ERole getName() {
+    public models.ERole getName() {
         return name;
     }
 
-    public void setName(ERole name) {
+    public void setName(models.ERole name) {
         this.name = name;
     }
 }
