@@ -1,4 +1,4 @@
-package payload.request;
+package backend.src.main.java.payload.request;
 
 import jakarta.validation.constraints.NotBlank;
 

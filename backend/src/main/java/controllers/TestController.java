@@ -1,4 +1,4 @@
-package controllers;
+package backend.src.main.java.controllers;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;

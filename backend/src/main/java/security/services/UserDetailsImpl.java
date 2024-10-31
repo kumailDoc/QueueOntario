@@ -1,4 +1,4 @@
-package security.services;
+package backend.src.main.java.security.services;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import models.User;

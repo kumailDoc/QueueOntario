@@ -1,12 +1,9 @@
-package controllers;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
+package backend.src.main.java.controllers;
 
 import jakarta.validation.Valid;
-
+import models.ERole;
+import models.Role;
+import models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
@@ -16,23 +13,20 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import backend.src.main.java.payload.request.LoginRequest;
+import backend.src.main.java.payload.request.SignupRequest;
+import backend.src.main.java.payload.response.MessageResponse;
+import backend.src.main.java.payload.response.UserInfoResponse;
+import backend.src.main.java.repository.RoleRepository;
+import backend.src.main.java.repository.UserRepository;
+import backend.src.main.java.security.jwt.JwtUtils;
+import backend.src.main.java.security.services.UserDetailsImpl;
 
-import models.ERole;
-import models.Role;
-import models.User;
-import payload.request.LoginRequest;
-import payload.request.SignupRequest;
-import payload.response.UserInfoResponse;
-import payload.response.MessageResponse;
-import repository.RoleRepository;
-import repository.UserRepository;
-import security.jwt.JwtUtils;
-import security.services.UserDetailsImpl;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 
 
