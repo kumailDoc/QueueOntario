@@ -1,0 +1,85 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden; 
+  }
+  
+  .join-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .join-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 5px solid rgb(1, 83, 1);
+    border-radius: 20%;
+    padding: 30px; 
+    background-color: white;
+    width: 550px; 
+    box-sizing: border-box; 
+  }
+  
+  .join-form {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch; 
+    width: 100%;
+  }
+  
+  .join-form h1 {
+    font-size: 1.8em; 
+    color: rgb(1, 83, 1);
+    margin-bottom: 10px; 
+  }
+  
+  .join-form input,
+  .join-form select {
+    width: 100%; 
+    padding: 8px; 
+    margin: 8px 0; 
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box; 
+  }
+  
+  button {
+    width: 100%; 
+    padding: 10px; 
+    background-color: #2ea155;
+    color: white;
+    border: none;
+    border-radius: 25px; 
+    font-size: 1em; 
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #6ba77f;
+  }
+  
+  .login-link {
+    margin-top: 15px; 
+    font-size: 0.9em; 
+    color: #333;
+  }
+  
+  .login-link a {
+    color: #2ea155;
+    text-decoration: none;
+  }
+  
+  .login-link a:hover {
+    text-decoration: underline;
+  }
+  
