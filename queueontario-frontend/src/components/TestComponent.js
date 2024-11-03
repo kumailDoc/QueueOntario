@@ -16,6 +16,7 @@ const TestComponent = () => {
   return (
     <div style={{ padding: '20px', border: '1px solid #ccc', maxWidth: '400px', margin: '20px auto' }}>
       <h2>User Information</h2>
+      <p><strong>Id:</strong> {userInfo.id}</p>
       <p><strong>Username:</strong> {userInfo.username}</p>
       <p><strong>Email:</strong> {userInfo.email}</p>
       <p><strong>Roles:</strong> {userInfo.roles.join(', ')}</p>

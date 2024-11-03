@@ -5,7 +5,7 @@ import Footer from "./Footer";
 import '../styles/Login.css';
 import logo from '../assets/logo.JPG';
 
-const Login = () => {
+const Login = ({ setUserId }) => {  // Receive setUserId as a prop
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -36,6 +36,9 @@ const Login = () => {
       // Store user information in state and localStorage
       setUserInfo(data); // Store user info in state
       localStorage.setItem('userInfo', JSON.stringify(data)); // Store user info in localStorage
+
+      // Pass userId to the parent component
+      setUserId(data.id);
 
       // Redirect to home page after successful login
       navigate('/');

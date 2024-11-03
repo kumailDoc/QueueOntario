@@ -5,7 +5,7 @@ import '../styles/HomePage.css';
 import Header from './Header';
 import Footer from './Footer';
 
-const HomePage = () => {
+const HomePage = ({userId}) => {
   const [selectedLocation, setSelectedLocation] = useState('');
   const handleLocationChange = (event) => {
     setSelectedLocation(event.target.value);
@@ -39,6 +39,7 @@ const HomePage = () => {
           </Link> 
         </div>
       </div>
+      {/* <h1>{userId}</h1> */}
       <Footer />
     </div>
   );
