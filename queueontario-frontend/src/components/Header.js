@@ -17,6 +17,10 @@ const Header = () => {
     navigate('/login');
   };
 
+  const handleCheckWaitlist = () => {
+    navigate('/checkwaitlist');
+  }
+
   return (
     <header className='header-body'>
       <nav className="nav-left">
@@ -31,6 +35,7 @@ const Header = () => {
           {userInfo ? (
             // Display username and logout button if logged in
             <>
+              <li><button onClick={handleCheckWaitlist} className="cwaitlist-button">Check Waitlist</button></li>
               <li className='greeting'>Welcome, {userInfo.username}</li>
               <li><button onClick={handleLogout} className="logout-button">Log Out</button></li>
             </>
