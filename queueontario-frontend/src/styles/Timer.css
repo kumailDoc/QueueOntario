@@ -1,0 +1,29 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.inner-container {
+    flex: 1;
+    padding-top: 15%;
+    width: 390px;
+}
+.waitlist-container{
+    padding: 5%;
+    margin: 1%;
+    display: contents;
+}
+
+.timer-container{
+    border-radius: 10px;
+    padding: 5%;
+}
+
+.light-green {
+    background-color: rgb(90, 226, 176);
+}
+
+.green {
+    background-color: rgb(5, 206, 112);
+}
