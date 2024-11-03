@@ -6,7 +6,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection="users_waitlist")
-public class UserWaitlist {
+public class UserWaitList {
     
     @Id
     private String userWaitlistId;
