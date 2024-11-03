@@ -50,3 +50,23 @@ nav a:hover {
 .user-info:hover {
   color: blue; /* Change color on hover */
 }
+
+.logout-button {
+  background: lightgreen;
+  border: solid 1px lightgreen;
+  color: black;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: none;
+  font-size: inherit;
+  margin-right: 20px;
+  font-weight: bold;
+}
+.logout-button:hover {
+  color: white;
+  background-color: black;
+}
+
+.greeting {
+  margin-right: 10px;
+}
