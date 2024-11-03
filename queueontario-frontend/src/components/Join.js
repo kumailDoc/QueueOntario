@@ -1,15 +1,20 @@
 import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
-import '../styles/Join.css'; // Import the new CSS file
+import '../styles/Join.css';
 
 const JoinWaitList = () => {
+  const location = useLocation();
+  const selectedCenter = location.state?.center;
+
   const [formData, setFormData] = useState({
     pincode: '',
     service: '',
     name: '',
     email: '',
-    phone: ''
+    phone: '',
+    selectedCenter: selectedCenter?.name || ''
   });
 
   const handleInputChange = (event) => {
@@ -29,7 +34,7 @@ const JoinWaitList = () => {
     <div className="join-wrapper">
       <Header />
       <div className="join-container">
-        <h1>Join Waitlist</h1>
+        <h1>Join Waitlist for {selectedCenter?.name || 'Service Ontario Center'}</h1>
         <form className="join-form" onSubmit={handleSubmit}>
           <label htmlFor="pincode">Pincode:</label>
           <input

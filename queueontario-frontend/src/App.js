@@ -7,6 +7,8 @@ import Signup from './components/Signup';
 import JoinWaitList from './components/Join';
 import About from './components/About';
 import Report from './components/Report';
+import ServiceOntarioList from './components/ServiceOntarioList';
+
 
 function App() {
   return (
@@ -20,6 +22,7 @@ function App() {
           <Route path="/join" element={<JoinWaitList />} />
           <Route path="/reportissue" element={<Report />} />
           <Route path="/about" element={<About />} />
+          <Route path="/serviceontario" element={<ServiceOntarioList />} /> {/* Add this line */}
 
         </Routes>
         </div>

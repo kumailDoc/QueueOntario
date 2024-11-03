@@ -1,0 +1,80 @@
+/* General Page Styling */
+.service-ontario-list {
+    font-family: 'Roboto', Arial, sans-serif;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  .centers-container {
+    flex: 1;
+    padding: 40px;
+    max-width: 1200px;
+    margin: auto;
+  }
+  
+  .page-title {
+    font-size: 2em;
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  
+  /* Card Layout for Centers */
+  .center-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+  }
+  
+  .center-card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 300px;
+    text-align: center;
+    transition: transform 0.2s;
+  }
+  
+  .center-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .center-card h3 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+  }
+  
+  .center-card p {
+    font-size: 1em;
+    color: #777;
+    margin-bottom: 20px;
+  }
+  
+  /* Styling Join Button */
+  .join-button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1em;
+    color: #fff;
+    background-color: #4caf50;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+  }
+  
+  .join-button:hover {
+    background-color: #45a049;
+  }
+  
+  /* No Centers Message */
+  .no-centers {
+    text-align: center;
+    font-size: 1.2em;
+    color: #888;
+    margin-top: 40px;
+  }
+  
