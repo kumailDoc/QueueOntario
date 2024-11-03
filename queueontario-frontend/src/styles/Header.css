@@ -67,6 +67,23 @@ nav a:hover {
   background-color: black;
 }
 
+.cwaitlist-button {
+  background: lightgreen;
+  border: solid 1px lightgreen;
+  color: black;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: none;
+  font-size: inherit;
+  margin-right: 30px;
+  margin-left: -20px;
+  font-weight: bold;
+}
+.cwaitlist-button:hover {
+  color: white;
+  background-color: black;
+}
+
 .greeting {
   margin-right: 10px;
 }
