@@ -1,0 +1,75 @@
+/* ServiceCentersList.css */
+
+.service-centers-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh; /* Centers the content vertically within the viewport */
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+  }
+  
+  .service-centers-list h1 {
+    color: #145214; /* Dark green to match the header/footer */
+    margin-bottom: 20px;
+  }
+  
+  .service-centers-list ul {
+    list-style-type: none;
+    padding: 0;
+    width: 100%; /* Takes full width of the container */
+  }
+  
+  .service-centers-list li {
+    background-color: #f9f9f9; /* Light background for card effect */
+    border: 1px solid #ddd; /* Light border to distinguish each card */
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px; /* Max width for each card */
+  }
+  
+  .service-centers-list li h2 {
+    color: #145214; /* Matching the overall color scheme */
+    margin-bottom: 10px;
+  }
+  
+  .service-centers-list li p {
+    margin-bottom: 15px;
+    color: #555; /* Soft gray for address */
+  }
+  
+  .service-centers-list li button {
+    background-color: #145214; /* Consistent green color */
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .service-centers-list li button:hover {
+    background-color: #0f3e0f; /* Darker green on hover */
+  }
+  
+  @media (max-width: 600px) {
+    .service-centers-list li {
+      padding: 15px;
+    }
+  
+    .service-centers-list li h2 {
+      font-size: 1.2em;
+    }
+  
+    .service-centers-list li button {
+      padding: 8px 16px;
+    }
+  }
+  
