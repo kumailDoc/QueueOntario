@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import Timer from "./Timer"
 import Header from "./Header"
 import Footer from "./Footer"
@@ -8,6 +9,8 @@ function CheckWaitlist() {
 
     const [userInfo, setUserInfo] = useState(null)
     const [waitlistTimers, setWaitlistTimers] = useState([])
+    const navigate = useNavigate();
+
 
     useEffect(() => {
         // Retrieve user info from localStorage
@@ -48,6 +51,36 @@ function CheckWaitlist() {
         }, 10 * 60 * 1000)      //10 minutes
     }
 
+  
+   
+     // Handle cancel button click
+     const handleCancel = async (waitlistId) => {
+        try {
+            const response = await fetch(`http://localhost:8080/api/waitlists/delete`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    waitlistId,
+                    userId: userInfo.id
+                })
+            });
+            if (response.ok) {
+                setWaitlistTimers(timers => timers.filter(timer => timer.waitlistId !== waitlistId));
+                console.log("User removed from waitlist");
+                // Redirect to homepage
+                navigate("/");
+            } else {
+                console.error("Failed to remove user from waitlist");
+            }
+        } catch (e) {
+            console.error('Error:', e);
+        }
+    };
+    
+
+
     return (
         <div className="container">
             <div className="header">
@@ -64,6 +97,7 @@ function CheckWaitlist() {
                                     <div key={timer.waitlistId} className={`timer-container ${timer.waitlistId % 2 === 0 ? 'light-green' : 'green'}`}>
                                         <h2>{timer.location}</h2>
                                         <Timer estimatedWaitTime={timer.estimatedWaitTime} waitlistersAhead={timer.waitlistersAhead} onComplete={() => handleComplete(timer.id)} />
+                                        <button onClick={() => handleCancel(timer.waitlistId)}>Cancel</button>
                                     </div>
                                 ))}
                         </div>
