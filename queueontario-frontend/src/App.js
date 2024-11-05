@@ -9,6 +9,7 @@ import About from './components/About';
 import Report from './components/Report';
 import CheckWaitlist from './components/CheckWaitlist';
 import TestComponent from './components/TestComponent';
+import ServiceCentersList from './components/ServiceCentersList';
 
 function App() {
   // Holds userId state. Please use for other components if needed!
@@ -26,6 +27,7 @@ function App() {
             <Route path="/join" element={<JoinWaitList />} />
             <Route path="/reportissue" element={<Report />} />
             <Route path="/about" element={<About />} />
+            <Route path="/servicecenters" element={<ServiceCentersList />} />   
             <Route path="/checkwaitlist" element={<CheckWaitlist />} />
             {/* For Test Case */}
             <Route path="/test" element={<TestComponent />}/>

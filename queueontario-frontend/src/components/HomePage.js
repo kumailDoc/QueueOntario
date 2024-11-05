@@ -1,14 +1,21 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.JPG';
 import '../styles/HomePage.css';
 import Header from './Header';
 import Footer from './Footer';
 
-const HomePage = ({userId}) => {
+const HomePage = ({ userId }) => {
   const [selectedLocation, setSelectedLocation] = useState('');
+  const navigate = useNavigate();
+
   const handleLocationChange = (event) => {
     setSelectedLocation(event.target.value);
+  };
+
+  const handleJoinWaitlist = () => {
+    // Navigate to the ServiceCentersList component and pass the selected city
+    navigate('/servicecenters', { state: { selectedLocation } });
   };
 
   return (
@@ -30,16 +37,15 @@ const HomePage = ({userId}) => {
             <option value="richmondhill">Richmond Hill</option>
             <option value="ajax">Ajax</option>
           </select>
-          <Link 
-            to="/join" 
+          <button 
+            onClick={handleJoinWaitlist} 
             className="circular-button" 
-            style={{ pointerEvents: selectedLocation ? 'auto' : 'none', opacity: selectedLocation ? 1 : 0.5 }}
+            disabled={!selectedLocation}
           >
             Join Waitlist
-          </Link> 
+          </button>
         </div>
       </div>
-      {/* <h1>{userId}</h1> */}
       <Footer />
     </div>
   );
