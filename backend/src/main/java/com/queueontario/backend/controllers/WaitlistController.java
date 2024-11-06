@@ -43,6 +43,7 @@ public class WaitlistController {
     public Waitlist addUserToWaitlist(@RequestBody AddUserRequest addUserRequest) {
         return waitlistServiceImpl.addUserToWaitlist(addUserRequest.getServiceOntarioCenterId(), addUserRequest.getUserId());
     }
+    
     // Cancel Spot
     @DeleteMapping("/delete")
     public ResponseEntity<String> removeUserFromWaitlistByWaitlistId(@RequestBody RemoveUserRequest removeUserRequest) {
