@@ -28,6 +28,7 @@ body, html {
   width: 550px; 
   height: 600px;
   box-sizing: border-box; 
+  margin-top: 100px;
 }
 
 .signin-form {
