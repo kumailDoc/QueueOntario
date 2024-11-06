@@ -27,6 +27,7 @@ body, html {
     background-color: white;
     width: 550px; 
     box-sizing: border-box; 
+    margin-top: 100px;
   }
   
   .join-form {
