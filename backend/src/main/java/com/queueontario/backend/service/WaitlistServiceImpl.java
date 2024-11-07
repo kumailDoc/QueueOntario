@@ -12,8 +12,13 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
 import com.mongodb.client.result.UpdateResult;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,12 +43,19 @@ public class WaitlistServiceImpl {
     
         if (optionalWaitlist.isPresent()) {
             waitlist = optionalWaitlist.get();
+            System.out.println("Retrieved waitlist with isActive status: " + waitlist.getIsActive());
         } else {
             waitlist = new Waitlist();
             waitlist.setLocationId(serviceOntarioCenterId);
             waitlist.setWaitlisters(new ArrayList<>());
             waitlist.setIsActive("true");
             waitlist.setAverageWaitTime("20");
+        }
+    
+        // Check if the waitlist is active; return immediately if it’s inactive
+        if (!"true".equals(waitlist.getIsActive())) {
+            System.out.println("Cannot join waitlist; this waitlist is not active for locationId: " + serviceOntarioCenterId);
+            return waitlist;
         }
     
         if (waitlist.getWaitlisters().contains(userId)) {
@@ -88,8 +100,6 @@ public class WaitlistServiceImpl {
         return waitlist;
     }
     
-    
-
     private Waitlist createNewWaitlist(ServiceOntarioCenter center) {
         Waitlist waitlist = new Waitlist();
         waitlist.setWaitlistId(center.getWaitlistId());
@@ -101,31 +111,44 @@ public class WaitlistServiceImpl {
     }
 
     public boolean removeUserFromWaitlistByWaitlistId(String waitlistId, String userId) {
-        System.out.println("WaitlistId: " + waitlistId);
-        System.out.println("UserId: " + userId);
+        System.out.println("Received request to remove user: " + userId + " from waitlist: " + waitlistId);
     
         Optional<Waitlist> optionalWaitlist = waitlistRepository.findById(waitlistId);
     
         if (optionalWaitlist.isPresent()) {
-            System.out.println("Waitlist found");
+            System.out.println("Waitlist found with waitlistId: " + waitlistId);
             Waitlist waitlist = optionalWaitlist.get();
-            System.out.println("Current waitlisters: " + waitlist.getWaitlisters());
     
-            for (String id : waitlist.getWaitlisters()) {
-                System.out.println("Comparing " + id + " with " + userId);
-                if (id.equals(userId)) {
-                    System.out.println("User found in waitlist");
-                    waitlist.getWaitlisters().remove(id); // Remove user from waitlist
-                    waitlistRepository.save(waitlist); // Save updated waitlist
-                    System.out.println("User removed successfully");
-                    return true; // Return true to indicate successful removal
+            System.out.println("Attempting to remove userId from waitlisters list.");
+            boolean isRemoved = waitlist.getWaitlisters().remove(userId); // Remove user from waitlist
+            if (isRemoved) {
+                waitlistRepository.save(waitlist);
+                System.out.println("User " + userId + " removed from waitlist " + waitlistId + " successfully.");
+    
+                // Attempting to delete from users_waitlist
+                System.out.println("Attempting to delete UserWaitList record for userId: " + userId);
+                try {
+                    userWaitListRepository.deleteByUserId(userId);
+                    System.out.println("Delete operation called for UserWaitList with userId: " + userId);
+                    
+                    // Verification
+                    Optional<UserWaitList> checkDeletion = userWaitListRepository.findUserByUserId(userId);
+                    if (checkDeletion.isPresent()) {
+                        System.out.println("UserWaitList record still exists for userId: " + userId);
+                    } else {
+                        System.out.println("UserWaitList record successfully deleted for userId: " + userId);
+                    }
+                } catch (Exception e) {
+                    System.out.println("Exception during delete operation: " + e.getMessage());
                 }
+                return true;
+            } else {
+                System.out.println("User " + userId + " not found in waitlist.");
             }
-            System.out.println("User not found in waitlist after comparison");
         } else {
-            System.out.println("Waitlist not found");
+            System.out.println("Waitlist not found for waitlistId: " + waitlistId);
         }
-        return false; // Return false if waitlist not found or user not in waitlist
+        return false;
     }
     
 
