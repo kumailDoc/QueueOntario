@@ -9,22 +9,56 @@ const Report = () => {
   const [comments, setComments] = useState('');
   const [email, setEmail] = useState(''); 
 
-  const handleSubmit = (event) => {
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   //handle submission
+  //   const reportData = {
+  //     name,
+  //     issue,
+  //     comments,
+  //     email, 
+  //   };
+
+  //   console.log('Report submitted:', reportData);
+
+  //   setName('');
+  //   setIssue('');
+  //   setComments('');
+  //   setEmail(''); 
+  // };
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    //handle submission
-    const reportData = {
-      name,
-      issue,
-      comments,
-      email, 
-    };
+    const reportData = { name, issue, comments, email };
 
-    console.log('Report submitted:', reportData);
+    try {
+        // Retrieve the JWT token from localStorage
+        const token = localStorage.getItem('jwtToken'); 
 
-    setName('');
-    setIssue('');
-    setComments('');
-    setEmail(''); 
+        const response = await fetch('http://localhost:8080/api/report', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`, // Include the token here
+            },
+            body: JSON.stringify(reportData),
+        });
+
+        if (response.ok) {
+            alert('Report submitted successfully!');
+            setName('');
+            setIssue('');
+            setComments('');
+            setEmail('');
+        } else if (response.status === 401) {
+            alert('Unauthorized: Please log in again.');
+        } else {
+            alert('Failed to submit the report.');
+        }
+    } catch (error) {
+        console.error('Error submitting the report:', error);
+        alert('An error occurred. Please try again.');
+    }
   };
 
   return (
