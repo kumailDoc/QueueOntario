@@ -3,17 +3,18 @@ import Header from './Header';
 import Footer from './Footer';
 import '../styles/About.css';
 
-const About = () => {
+const Contact = () => {
   return (
-    <div className="about-page">
-      <Header />
-      <div className="contact-container">
-        <h1>Conatct QueueOntario</h1>
-        <p>This will be the contact page.</p>
-      </div>
-      <Footer />
+    <div style={{ padding: "20px" }}>
+      <h1>Contact Us</h1>
+      <p>Feel free to reach out to us through the following methods:</p>
+      <ul>
+        <li><strong>Phone:</strong> +1 (555) 123-4567</li>
+        <li><strong>Email:</strong> contact@example.com</li>
+        <li><strong>Address:</strong> 123 Main St, Springfield, USA</li>
+      </ul>
     </div>
   );
 };
 
-export default About;
+export default Contact;
