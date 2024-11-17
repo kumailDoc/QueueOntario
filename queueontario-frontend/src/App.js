@@ -11,6 +11,7 @@ import CheckWaitlist from './components/CheckWaitlist';
 import TestComponent from './components/TestComponent';
 import ServiceCentersList from './components/ServiceCentersList';
 import IssuesPage from './components/Issues';
+import Contact from './components/Contact'
 
 function App() {
   // Holds userId state. Please use for other components if needed!
@@ -33,6 +34,8 @@ function App() {
             <Route path="/issues" element={<IssuesPage />} />
             {/* For Test Case */}
             <Route path="/test" element={<TestComponent />}/>
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/test" element={<TestComponent />} />
           </Routes>
         </div>
       </Router>
