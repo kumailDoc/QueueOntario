@@ -11,7 +11,7 @@ const Contact = () => {
       <ul>
         <li><strong>Phone:</strong> +1 (555) 123-4567</li>
         <li><strong>Email:</strong> contact@example.com</li>
-        <li><strong>Address:</strong> 123 Main St, Springfield, USA</li>
+        <li><strong>Address:</strong> 123 Main St, Toronto, Ontario, Canada</li>
       </ul>
     </div>
   );
