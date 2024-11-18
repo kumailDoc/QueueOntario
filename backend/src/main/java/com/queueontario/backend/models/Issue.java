@@ -1,7 +1,9 @@
 package com.queueontario.backend.models;
 
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.time.LocalDateTime;
 
 @Document(collection = "issues")
@@ -13,6 +15,8 @@ public class Issue {
     private String issue;
     private String comments;
     private String email;
+
+    @CreatedDate // Automatically sets the creation time when a document is saved
     private LocalDateTime createdAt;
 
     // Getters and Setters

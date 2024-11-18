@@ -33,6 +33,8 @@ function App() {
             <Route path="/admin/update-status" element={<ModifyWaitlistStatus/>}/>
             {/* For Test Case */}
             <Route path="/test" element={<TestComponent />}/>
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/test" element={<TestComponent />} />
           </Routes>
         </div>
       </Router>

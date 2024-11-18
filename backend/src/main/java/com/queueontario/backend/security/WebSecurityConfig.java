@@ -68,7 +68,7 @@ public class WebSecurityConfig {
                                 .requestMatchers("/error/**").permitAll()
                                 .requestMatchers("/api/serviceontario/centers").permitAll()  // Allow public access to service centers list
                                 .requestMatchers("/api/serviceontario/centers/**").permitAll()  // In case the endpoint uses additional paths
-                                .requestMatchers("/api/report/**").permitAll()  // Allow public access to the report endpoint
+                                .requestMatchers("/api/report/**").permitAll()
                                 .anyRequest().authenticated()
                 );
 

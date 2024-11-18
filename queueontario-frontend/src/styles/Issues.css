@@ -1,0 +1,91 @@
+.issues-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 1rem;
+    font-family: Arial, sans-serif;
+}
+
+.issues-container h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.error-message {
+    color: #d9534f;
+    background-color: #f8d7da;
+    padding: 0.5rem;
+    border: 1px solid #f5c6cb;
+    border-radius: 5px;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.no-issues {
+    color: #6c757d;
+    text-align: center;
+    font-style: italic;
+    margin-top: 2rem;
+}
+
+.issues-list {
+    list-style: none;
+    padding: 0;
+}
+
+.issue-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.issue-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.issue-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 0.5rem;
+    visibility: hidden; /* Hidden by default */
+}
+
+.issue-card:hover .issue-actions {
+    visibility: visible; /* Show on hover */
+}
+
+.delete-button,
+.respond-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.delete-button:hover {
+    background-color: #d9534f;
+}
+
+.respond-button:hover {
+    background-color: #28a745;
+}
+
+.issue-createdAt {
+    color: #0d4d0f; /* Dark green for default text */
+    font-size: 0.9rem; /* Adjust size to match your design */
+    margin-top: 0.5rem;
+  }
+  
+.issue-createdAt:hover {
+color: blue; /* Change to blue on hover */
+}
