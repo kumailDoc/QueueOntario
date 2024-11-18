@@ -2,6 +2,7 @@ package com.queueontario.backend.service;
 import com.queueontario.backend.models.ServiceOntarioCenter;
 import com.queueontario.backend.models.UserWaitList;
 import com.queueontario.backend.models.Waitlist;
+import com.queueontario.backend.models.WaitlistDTO;
 import com.queueontario.backend.repository.ServiceOntarioCenterRepository;
 import com.queueontario.backend.repository.UserWaitlistRepo;
 import com.queueontario.backend.repository.WaitlistRepo;
@@ -22,7 +23,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class WaitlistServiceImpl {
@@ -155,22 +158,49 @@ public class WaitlistServiceImpl {
     // Change Waitlist Status
     public boolean updateWaitlistStatus(String waitlistId, String isActive) {
         System.out.println("Updating status for waitlist ID: " + waitlistId + " to " + isActive);
-
-        Optional<Waitlist> optionalWaitlist = waitlistRepository.findById(waitlistId);
-        if (optionalWaitlist.isPresent()) {
-            Waitlist waitlist = optionalWaitlist.get();
+    
+        // Fetch waitlist and update its status
+        return waitlistRepository.findById(waitlistId).map(waitlist -> {
             waitlist.setIsActive(isActive);
-
-            // Save and check the returned updated object
-            Waitlist updatedWaitlist = waitlistRepository.save(waitlist);
-            System.out.println("Updated waitlist status: " + updatedWaitlist.getIsActive());
-
-            // Final verification for debugging
-            return updatedWaitlist.getIsActive().equals(isActive);
-        } else {
+            waitlistRepository.save(waitlist); // Save updated waitlist
+            System.out.println("Waitlist status updated successfully to: " + isActive);
+            return true;
+        }).orElseGet(() -> {
             System.out.println("Waitlist not found for ID: " + waitlistId);
             return false;
-        }
+        });
     }
+    
+   public List<WaitlistDTO> getAllWaitlistsWithDetails() {
+    // Fetch all waitlists
+    List<Waitlist> waitlists = waitlistRepository.findAll();
+
+    // Pre-fetch all ServiceOntarioCenter data into a map for efficient lookups
+    Map<String, ServiceOntarioCenter> locationMap = serviceOntarioCenterRepository
+        .findAll()
+        .stream()
+        .collect(Collectors.toMap(ServiceOntarioCenter::getId, center -> center)); // Map by location ID
+
+    // Convert waitlists to DTOs
+    List<WaitlistDTO> waitlistDTOs = new ArrayList<>();
+    for (Waitlist waitlist : waitlists) {
+        WaitlistDTO waitlistDTO = new WaitlistDTO();
+        waitlistDTO.setWaitlistId(waitlist.getWaitlistId());
+        waitlistDTO.setIsActive(waitlist.getIsActive());
+        waitlistDTO.setEstimatedWaitTime(Integer.parseInt(waitlist.getAverageWaitTime())); // Assuming wait time is stored as a string
+        waitlistDTO.setLocation(waitlist.getLocationId());
+
+        // Get location details from pre-fetched map
+        ServiceOntarioCenter center = locationMap.get(waitlist.getLocationId());
+        if (center != null) {
+            waitlistDTO.setLocationName(center.getName());
+            waitlistDTO.setLocationAddress(center.getAddress());
+            waitlistDTO.setLocationCity(center.getCity());
+        }
+
+        waitlistDTOs.add(waitlistDTO);
+    }
+    return waitlistDTOs;
+}
 
 }

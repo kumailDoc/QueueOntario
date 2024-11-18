@@ -5,11 +5,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.queueontario.backend.models.Waitlist;
 import com.queueontario.backend.models.WaitlistDTO;
+import com.queueontario.backend.repository.ServiceOntarioCenterRepository;
 import com.queueontario.backend.service.WaitlistService;
 import com.queueontario.backend.service.WaitlistServiceImpl;
 
@@ -19,6 +21,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 @RestController
@@ -30,6 +34,9 @@ public class WaitlistController {
 
     @Autowired
     private WaitlistServiceImpl waitlistServiceImpl;
+
+    @Autowired 
+    private ServiceOntarioCenterRepository serviceOntarioCenterRepository;
 
     @GetMapping("/user/{id}")
     public ResponseEntity<List<WaitlistDTO>> getUserWaitlist(@PathVariable String id) {
@@ -57,11 +64,18 @@ public class WaitlistController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User or waitlist not found.");
     }
 
-}
+    }
+    // Get all waitlists and the location details 
+    @GetMapping("/getAll")
+    public List<WaitlistDTO> getAllWaitlistsWithDetails() {
+        return waitlistServiceImpl.getAllWaitlistsWithDetails();
+    }
+    
 
 
     // Update waitlist - Open/Close Waitlist Service
-    @PutMapping("update-status")
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/admin/update-status")
     public ResponseEntity<String> updateWaitlistStatus(@RequestBody UpdateStatusRequest updateStatusRequest) {
         boolean isUpdated = waitlistServiceImpl.updateWaitlistStatus(updateStatusRequest.getWaitlistId(), updateStatusRequest.getIsActive());
         if (isUpdated) {
