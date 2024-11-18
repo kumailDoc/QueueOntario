@@ -11,7 +11,7 @@ import CheckWaitlist from './components/CheckWaitlist';
 import TestComponent from './components/TestComponent';
 import ServiceCentersList from './components/ServiceCentersList';
 import ModifyWaitlistStatus from './components/ModifyWaitlistStatus';
-
+import Contact from './components/Contact';
 function App() {
   // Holds userId state. Please use for other components if needed!
   const [userId, setUserId] = useState(null);
