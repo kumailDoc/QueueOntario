@@ -8,6 +8,8 @@ import com.queueontario.backend.repository.ServiceOntarioCenterRepository;
 import com.queueontario.backend.repository.UserRepository;
 import com.queueontario.backend.repository.UserWaitlistRepo;
 import com.queueontario.backend.repository.WaitlistRepo;
+import com.queueontario.backend.utils.EmailService;
+
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
@@ -29,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import com.queueontario.backend.models.User;
 
 @Service
 public class WaitlistServiceImpl {
@@ -40,6 +43,12 @@ public class WaitlistServiceImpl {
     @Autowired
     private UserWaitlistRepo userWaitListRepository;
 
+    @Autowired
+    private MongoTemplate mongoTemplate;
+    
+    @Autowired
+    private EmailService emailService;
+    
     @Autowired
     private UserRepository userRepository;
 
@@ -103,6 +112,15 @@ public class WaitlistServiceImpl {
     
         userWaitListRepository.save(userWaitList);
         System.out.println("UserWaitList saved for userId: " + userId + " with waitlistId: " + waitlist.getWaitlistId());
+        
+     // Get user email and service center details to send email
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        ServiceOntarioCenter serviceOntarioCenter = serviceOntarioCenterRepository.findById(serviceOntarioCenterId)
+                .orElseThrow(() -> new RuntimeException("Service Ontario Center not found"));
+
+        String emailText = String.format("Hello %s,\n\nYou have successfully joined the waitlist for the Service Ontario center located at %s.\n\nThank you for using our service.\n\nQueueOntario Team",
+                user.getUsername(), serviceOntarioCenter.getName());
+        emailService.sendEmail(user.getEmail(), "Waitlist Confirmation", emailText);
     
         return waitlist;
     }
