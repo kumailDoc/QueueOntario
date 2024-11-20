@@ -9,6 +9,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.queueontario.backend.models.UpdateWaitlistRequest;
 import com.queueontario.backend.models.Waitlist;
 import com.queueontario.backend.models.WaitlistDTO;
 import com.queueontario.backend.repository.ServiceOntarioCenterRepository;
@@ -65,15 +66,14 @@ public class WaitlistController {
     }
 
     }
-    // Get all waitlists and the location details 
+
+    // Get all waitlists and the location details and user names
     @GetMapping("/getAll")
     public List<WaitlistDTO> getAllWaitlistsWithDetails() {
         return waitlistServiceImpl.getAllWaitlistsWithDetails();
     }
     
-
-
-    // Update waitlist - Open/Close Waitlist Service
+    // Update waitlist Admin - Open/Close Waitlist Service
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/admin/update-status")
     public ResponseEntity<String> updateWaitlistStatus(@RequestBody UpdateStatusRequest updateStatusRequest) {
@@ -84,6 +84,24 @@ public class WaitlistController {
             return ResponseEntity.status(404).body("Waitlist not found.");
         }
     }
+    
+    //  Update waitlist Admin - Modify waitlist by allowing admin to remove users, averageWaitTime
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/admin/update-waitlist")
+    public ResponseEntity<String> updateWaitlist(@RequestBody UpdateWaitlistRequest request) {
+        boolean isUpdated = waitlistServiceImpl.updateWaitlist(
+            request.getWaitlistId(), 
+            request.getAverageWaitTime(), 
+            request.getRemoveUserIds()
+        );
+
+        if (isUpdated) {
+            return ResponseEntity.ok("Waitlist updated successfully.");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Waitlist not found.");
+        }
+    }
+
 
     public static class AddUserRequest {
         private String serviceOntarioCenterId;

@@ -1,5 +1,8 @@
 package com.queueontario.backend.models;
 
+import java.util.List;
+import java.util.Map;
+
 public class WaitlistDTO {
     
     private String waitlistId;
@@ -11,6 +14,7 @@ public class WaitlistDTO {
     private String locationAddress;
     private String locationCity;
     private String isActive;
+    private List<Map<String, String>> waitlisters;
 
 
     public String getWaitlistId() {
@@ -76,6 +80,13 @@ public class WaitlistDTO {
     public void setIsActive(String isActive) {
         this.isActive = isActive;
     }
+    public List<Map<String, String>> getWaitlisters() {
+        return waitlisters;
+    }
+    
+    public void setWaitlisters(List<Map<String, String>> waitlisters) {
+        this.waitlisters = waitlisters;
+    }
 
 
     public WaitlistDTO(String waitlistId, String location, int waitlistersAhead, int estimatedWaitTime)
@@ -101,8 +112,5 @@ public class WaitlistDTO {
 public WaitlistDTO() {
     // Default constructor
 }
-
-
-
     
 }

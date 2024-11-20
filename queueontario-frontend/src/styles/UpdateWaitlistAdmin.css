@@ -1,0 +1,164 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+  background-color: #f8f9fa; 
+  color: #212529; 
+}
+
+.container {
+  padding: 20px;
+  max-width: 90%;
+  margin: auto;
+}
+
+h2 {
+  text-align: center;
+  color: #127031; 
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.main-content {
+  background-color: #ffffff; 
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+}
+
+.scrollable-table {
+  max-height: 600px; 
+  width: 100%;
+  overflow-y: auto;
+  border-radius: 8px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 30px; 
+}
+
+th, td {
+  padding: 15px 20px;
+  text-align: left;
+  border: 1px solid #dee2e6; 
+}
+
+th {
+  background-color: #197237;
+  color: white;
+  font-weight: bold;
+  position: sticky; 
+  top: 0;
+  z-index: 1;
+}
+
+tr:nth-child(even) {
+  background-color: #f1f3f5; 
+}
+
+tr:hover {
+  background-color: #e9ecef; 
+}
+
+td ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+td ul li {
+  margin: 5px 0;
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;
+}
+
+button {
+  background-color: #0b5323; 
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+button:hover {
+  background-color: #143f0f; ;
+}
+
+button.remove-btn {
+  background-color: #143f0f; 
+}
+
+button.remove-btn:hover {
+  background-color: #197e1e; 
+}
+
+input[type="number"] {
+  width: 80px;
+  padding: 8px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+button.remove-btn, button {
+  padding: 8px 15px; 
+  font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+  .scrollable-table {
+    overflow-x: auto; 
+  }
+
+  table {
+    font-size: 14px;
+  }
+
+  th, td {
+    padding: 10px;
+  }
+
+  button {
+    padding: 5px 10px;
+    font-size: 14px;
+  }
+
+  input[type="number"] {
+    width: 60px; 
+  }
+}
+
+.remove-btn {
+  padding: 10px 15px; 
+}
+
+td button {
+  margin-left: 10px; 
+  background-color: #4fd999;
+  color: white;
+  border-radius: 4px;
+  padding: 5px 10px;
+  font-size: 14px;
+}
+
+td button:hover {
+  background-color: #c9302c;
+}
+
+table th, td {
+  border: 1px solid #ccc;
+}
+
+table td {
+  font-size: 1.1rem;
+}
+
+table td .remove-btn {
+  font-size: 0.9rem;
+  padding: 4px 8px;
+}

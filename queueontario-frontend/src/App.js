@@ -12,6 +12,9 @@ import TestComponent from './components/TestComponent';
 import ServiceCentersList from './components/ServiceCentersList';
 import ModifyWaitlistStatus from './components/ModifyWaitlistStatus';
 import Contact from './components/Contact';
+import UpdateLocationAdmin from './components/UpdateLocationAdmin';
+import UpdateWaitlistAdmin from './components/UpdateWaitlistAdmin';
+
 function App() {
   // Holds userId state. Please use for other components if needed!
   const [userId, setUserId] = useState(null);
@@ -31,6 +34,9 @@ function App() {
             <Route path="/servicecenters" element={<ServiceCentersList />} />   
             <Route path="/checkwaitlist" element={<CheckWaitlist />} />
             <Route path="/admin/update-status" element={<ModifyWaitlistStatus/>}/>
+            <Route path="/admin/update-location" element={<UpdateLocationAdmin/>}/>
+            <Route path="/admin/update-waitlist" element={<UpdateWaitlistAdmin/>}/>
+           
             {/* For Test Case */}
             <Route path="/test" element={<TestComponent />}/>
             <Route path="/contact" element={<Contact />} />

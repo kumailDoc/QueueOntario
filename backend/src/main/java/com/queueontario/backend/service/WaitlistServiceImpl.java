@@ -1,9 +1,11 @@
 package com.queueontario.backend.service;
 import com.queueontario.backend.models.ServiceOntarioCenter;
+import com.queueontario.backend.models.User;
 import com.queueontario.backend.models.UserWaitList;
 import com.queueontario.backend.models.Waitlist;
 import com.queueontario.backend.models.WaitlistDTO;
 import com.queueontario.backend.repository.ServiceOntarioCenterRepository;
+import com.queueontario.backend.repository.UserRepository;
 import com.queueontario.backend.repository.UserWaitlistRepo;
 import com.queueontario.backend.repository.WaitlistRepo;
 import org.bson.types.ObjectId;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -36,8 +39,9 @@ public class WaitlistServiceImpl {
 
     @Autowired
     private UserWaitlistRepo userWaitListRepository;
+
     @Autowired
-    private MongoTemplate mongoTemplate;
+    private UserRepository userRepository;
 
 
     public Waitlist addUserToWaitlist(String serviceOntarioCenterId, String userId) {
@@ -175,11 +179,17 @@ public class WaitlistServiceImpl {
     // Fetch all waitlists
     List<Waitlist> waitlists = waitlistRepository.findAll();
 
-    // Pre-fetch all ServiceOntarioCenter data into a map for efficient lookups
+    // Pre-fetch all ServiceOntarioCenter data 
     Map<String, ServiceOntarioCenter> locationMap = serviceOntarioCenterRepository
         .findAll()
         .stream()
-        .collect(Collectors.toMap(ServiceOntarioCenter::getId, center -> center)); // Map by location ID
+        .collect(Collectors.toMap(ServiceOntarioCenter::getId, center -> center)); 
+
+    // Pre-fetch all user data
+    Map<String, String> userMap = userRepository
+        .findAll()
+        .stream()
+        .collect(Collectors.toMap(User::getId, User::getUsername));    
 
     // Convert waitlists to DTOs
     List<WaitlistDTO> waitlistDTOs = new ArrayList<>();
@@ -187,7 +197,7 @@ public class WaitlistServiceImpl {
         WaitlistDTO waitlistDTO = new WaitlistDTO();
         waitlistDTO.setWaitlistId(waitlist.getWaitlistId());
         waitlistDTO.setIsActive(waitlist.getIsActive());
-        waitlistDTO.setEstimatedWaitTime(Integer.parseInt(waitlist.getAverageWaitTime())); // Assuming wait time is stored as a string
+        waitlistDTO.setEstimatedWaitTime(Integer.parseInt(waitlist.getAverageWaitTime())); 
         waitlistDTO.setLocation(waitlist.getLocationId());
 
         // Get location details from pre-fetched map
@@ -197,10 +207,69 @@ public class WaitlistServiceImpl {
             waitlistDTO.setLocationAddress(center.getAddress());
             waitlistDTO.setLocationCity(center.getCity());
         }
+        // Map user IDs to usernames
+        // List<String> usernames = waitlist.getWaitlisters()
+        //     .stream()
+        //     .map(userMap::get)
+        //     .collect(Collectors.toList());
+        // waitlistDTO.setWaitlisters(usernames);
+        List<Map<String, String>> detailedWaitlisters = waitlist.getWaitlisters()
+            .stream()
+            .map(userId -> {
+                Map<String, String> userDetail = new HashMap<>();
+                userDetail.put("userId", userId);
+                userDetail.put("username", userMap.get(userId)); // Map userId to username
+                return userDetail;
+            })
+            .collect(Collectors.toList());
+
+        waitlistDTO.setWaitlisters(detailedWaitlisters);
 
         waitlistDTOs.add(waitlistDTO);
     }
     return waitlistDTOs;
 }
+
+    public boolean updateWaitlist(String waitlistId, String averageWaitTime, List<String> removeUserIds) {
+        Optional<Waitlist> optionalWaitlist = waitlistRepository.findById(waitlistId);
+
+        if (optionalWaitlist.isPresent()) {
+            Waitlist waitlist = optionalWaitlist.get();
+
+            // Update average wait time
+            if (averageWaitTime != null) {
+                waitlist.setAverageWaitTime(averageWaitTime);
+            }
+
+            // Remove users from the waitlist
+            if (removeUserIds != null && !removeUserIds.isEmpty()) {
+                System.out.println("Initial waitlisters: " + waitlist.getWaitlisters());
+                System.out.println("Users to remove: " + removeUserIds);
+
+                // Attempt to remove users from waitlist
+                boolean removedFromWaitlist = waitlist.getWaitlisters().removeAll(removeUserIds);
+                System.out.println("Users removed from waitlist: " + removedFromWaitlist);
+
+                // Remove users from the `users_waitlist` collection
+                for (String userId : removeUserIds) {
+                    try {
+                        userWaitListRepository.deleteByUserId(userId);
+                        System.out.println("Successfully removed userId: " + userId + " from users_waitlist");
+                    } catch (Exception e) {
+                        System.out.println("Failed to remove userId: " + userId + " from users_waitlist. Error: " + e.getMessage());
+                    }
+                }
+            }
+
+            // Save the updated waitlist
+            waitlistRepository.save(waitlist);
+            System.out.println("Updated waitlist saved successfully.");
+            return true;
+        }
+
+        System.out.println("Waitlist not found for ID: " + waitlistId);
+        return false;
+    }
+
 
 }
