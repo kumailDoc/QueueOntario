@@ -1,99 +1,138 @@
-import React, { useState } from 'react';
-import Header from './Header';
-import Footer from './Footer';
-import '../styles/Join.css'; // Import the new CSS file
+import React, { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import Header from "./Header";
+import Footer from "./Footer";
+import "../styles/Join.css"; 
 
 const JoinWaitList = () => {
-  const [formData, setFormData] = useState({
-    pincode: '',
-    service: '',
-    name: '',
-    email: '',
-    phone: ''
-  });
+    const location = useLocation();
+    const navigate = useNavigate();
+    const { centerId } = location.state;
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setFormData({
-      ...formData,
-      [name]: value
+    const [formData, setFormData] = useState({
+        service: "",
+        email: "",
+        name: "",
+        phone: "",
     });
-  };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Add your submission logic here
-  };
+    const [error, setError] = useState(null);
 
-  return (
-    <div className="join-wrapper">
-      <Header />
-      <div className="join-container">
-        <h1>Join Waitlist</h1>
-        <form className="join-form" onSubmit={handleSubmit}>
-          <label htmlFor="pincode">Pincode:</label>
-          <input
-            type="text"
-            id="pincode"
-            name="pincode"
-            value={formData.pincode}
-            onChange={handleInputChange}
-            required
-          />
-          
-          <label htmlFor="service">Nearest Service Ontario:</label>
-          <select
-            id="service"
-            name="service"
-            value={formData.service}
-            onChange={handleInputChange}
-            required
-          >
-            <option value="">Select Service</option>
-            <option value="HealthCardRenewal">Health Card Renewal</option>
-            <option value="DriverLicenceRenewal">Driver Licence Renewal</option>
-            <option value="LicensePlate">License Plate</option>
-            <option value="ParkingPermit">Parking Permit</option>
-            <option value="OntarioPhotoCard">Ontario Photo Card</option>
-          </select>
-          
-          <label htmlFor="name">Name:</label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={formData.name}
-            onChange={handleInputChange}
-            required
-          />
-          
-          <label htmlFor="email">Email Address:</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleInputChange}
-            required
-          />
-          
-          <label htmlFor="phone">Phone Number:</label>
-          <input
-            type="tel"
-            id="phone"
-            name="phone"
-            value={formData.phone}
-            onChange={handleInputChange}
-            pattern="[0-9]{10}"
-            required
-          />
-          
-          <button type="submit" className="circular-button-join">Join Waitlist</button>
-        </form>
-      </div>
-      <Footer />
-    </div>
-  );
+    //Handle input changes
+    const handleInputChange = (event) => {
+        const { name, value } = event.target;
+        setFormData({
+            ...formData,
+            [name]: value,
+        });
+    };
+
+    const handleSubmit = async (event) => {
+      event.preventDefault();
+  
+      const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+      if (!userInfo || !userInfo.id) {
+        setError('User not logged in. Please log in to join the waitlist.');
+        return;
+      }
+  
+      const userId = userInfo.id;
+  
+      try {
+        const response = await fetch('http://localhost:8080/api/waitlists/add', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            serviceOntarioCenterId: centerId, 
+            userId,
+            service: formData.service,
+            email: formData.email,
+            name: formData.name,
+            phone: formData.phone,
+          }),
+        });
+  
+        if (!response.ok) {
+          throw new Error(`Error: ${response.status}`);
+        }
+  
+        const data = await response.json();
+        console.log('Successfully joined waitlist:', data);
+  
+        //Store the waitlist data
+        localStorage.setItem('waitlistInfo', JSON.stringify(data));
+
+        navigate('/checkwaitlist');
+      } catch (error) {
+        console.error('Error joining waitlist:', error);
+        setError('Failed to join the waitlist. Please try again.');
+      }
+    };
+
+    return (
+        <div className="join-wrapper">
+            <Header />
+            <div className="join-container">
+                <h1>Join Waitlist</h1>
+                {error && <p className="error-message">{error}</p>}
+                <form className="join-form" onSubmit={handleSubmit}>
+                    <label htmlFor="service">Service:</label>
+                    <select
+                        id="service"
+                        name="service"
+                        value={formData.service}
+                        onChange={handleInputChange}
+                        required
+                    >
+                        <option value="">Select Service</option>
+                        <option value="HealthCardRenewal">Health Card Renewal</option>
+                        <option value="DriverLicenceRenewal">Driver Licence Renewal</option>
+                        <option value="LicensePlate">License Plate</option>
+                        <option value="ParkingPermit">Parking Permit</option>
+                        <option value="OntarioPhotoCard">Ontario Photo Card</option>
+                    </select>
+
+                    <label htmlFor="email">Email Address:</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        required
+                    />
+
+                    <label htmlFor="name">Name:</label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        required
+                    />
+
+                    <label htmlFor="phone">Phone Number:</label>
+                    <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleInputChange}
+                        required
+                        pattern="[0-9]{10}"
+                    />
+
+                    <button type="submit" className="circular-button-join">
+                        Join Waitlist
+                    </button>
+                </form>
+            </div>
+            <Footer />
+        </div>
+    );
 };
 
 export default JoinWaitList;
