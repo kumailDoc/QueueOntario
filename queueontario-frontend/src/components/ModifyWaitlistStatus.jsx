@@ -49,7 +49,7 @@ const ModifyWaitlistStatus = () => {
   if (loading) return <div>Loading...</div>;
 
   return (
-    <div className="main-container">
+    <div class="table-container">
 
       <Header/>
       <h1>Admin Waitlist Management</h1>

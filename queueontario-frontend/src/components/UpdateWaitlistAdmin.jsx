@@ -87,9 +87,9 @@ const UpdateWaitlistAdmin = () => {
   
 
   return (
-    <div className="container">
+    <div >
       <Header />
-      <div className="main-content">
+      <div class="main-container">
         <h2>Waitlist Management</h2>
         
         <div className="scrollable-table">
