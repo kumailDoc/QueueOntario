@@ -1,0 +1,71 @@
+
+
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+  }
+  
+  label {
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: inline-block;
+  }
+  
+  select {
+    margin-bottom: 20px;
+    padding: 10px;
+    width: 300px;
+    border: 2px solid #2ea155;
+    border-radius: 10px;
+    font-size: 16px;
+  }
+  
+  input {
+    margin-bottom: 20px;
+    padding: 10px;
+    width: 300px;
+    border: 2px solid #2ea155;
+    border-radius: 10px;
+    font-size: 16px;
+  }
+  
+  .button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #2ea155;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+  }
+  
+  .button:hover {
+    background-color: #6ba77f;
+  }
+  
+  .main-content {
+    border: 5px rgb(1, 83, 1) solid;
+    border-radius: 20%;
+    padding: 50px;
+    background-color: white;
+    text-align: center;
+    max-width: 600px;
+    margin: auto;
+  }
+  
+  .message {
+    margin: 10px 0;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  

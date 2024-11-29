@@ -10,8 +10,10 @@ import Report from './components/Report';
 import CheckWaitlist from './components/CheckWaitlist';
 import TestComponent from './components/TestComponent';
 import ServiceCentersList from './components/ServiceCentersList';
-import IssuesPage from './components/Issues';
-import Contact from './components/Contact'
+import ModifyWaitlistStatus from './components/ModifyWaitlistStatus';
+import Contact from './components/Contact';
+import UpdateLocationAdmin from './components/UpdateLocationAdmin';
+import UpdateWaitlistAdmin from './components/UpdateWaitlistAdmin';
 
 function App() {
   // Holds userId state. Please use for other components if needed!
@@ -31,7 +33,10 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/servicecenters" element={<ServiceCentersList />} />   
             <Route path="/checkwaitlist" element={<CheckWaitlist />} />
-            <Route path="/issues" element={<IssuesPage />} />
+            <Route path="/admin/update-status" element={<ModifyWaitlistStatus/>}/>
+            <Route path="/admin/update-location" element={<UpdateLocationAdmin/>}/>
+            <Route path="/admin/update-waitlist" element={<UpdateWaitlistAdmin/>}/>
+           
             {/* For Test Case */}
             <Route path="/test" element={<TestComponent />}/>
             <Route path="/contact" element={<Contact />} />

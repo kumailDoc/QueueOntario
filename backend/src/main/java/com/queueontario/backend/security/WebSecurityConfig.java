@@ -64,6 +64,9 @@ public class WebSecurityConfig {
                         auth.requestMatchers("/api/auth/**").permitAll()
                                 .requestMatchers("/api/test/**").permitAll()
                                 .requestMatchers("/api/waitlists/**").permitAll()
+                                .requestMatchers("/api/waitlists/admin/update-status").hasRole("ADMIN")
+                                .requestMatchers("/api/serviceontario/admin/update-location").hasRole("ADMIN")
+                                .requestMatchers("/api/waitlists/admin/update-waitlist").hasRole("ADMIN")
                                 .requestMatchers("/error/**").permitAll()
                                 .requestMatchers("/api/serviceontario/centers").permitAll()  // Allow public access to service centers list
                                 .requestMatchers("/api/serviceontario/centers/**").permitAll()  // In case the endpoint uses additional paths

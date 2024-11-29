@@ -5,11 +5,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.queueontario.backend.models.UpdateWaitlistRequest;
 import com.queueontario.backend.models.Waitlist;
 import com.queueontario.backend.models.WaitlistDTO;
+import com.queueontario.backend.repository.ServiceOntarioCenterRepository;
 import com.queueontario.backend.service.WaitlistService;
 import com.queueontario.backend.service.WaitlistServiceImpl;
 
@@ -19,6 +22,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 @RestController
@@ -30,6 +35,9 @@ public class WaitlistController {
 
     @Autowired
     private WaitlistServiceImpl waitlistServiceImpl;
+
+    @Autowired 
+    private ServiceOntarioCenterRepository serviceOntarioCenterRepository;
 
     @GetMapping("/user/{id}")
     public ResponseEntity<List<WaitlistDTO>> getUserWaitlist(@PathVariable String id) {
@@ -57,11 +65,17 @@ public class WaitlistController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User or waitlist not found.");
     }
 
-}
+    }
 
-
-    // Update waitlist - Open/Close Waitlist Service
-    @PutMapping("update-status")
+    // Get all waitlists and the location details and user names
+    @GetMapping("/getAll")
+    public List<WaitlistDTO> getAllWaitlistsWithDetails() {
+        return waitlistServiceImpl.getAllWaitlistsWithDetails();
+    }
+    
+    // Update waitlist Admin - Open/Close Waitlist Service
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/admin/update-status")
     public ResponseEntity<String> updateWaitlistStatus(@RequestBody UpdateStatusRequest updateStatusRequest) {
         boolean isUpdated = waitlistServiceImpl.updateWaitlistStatus(updateStatusRequest.getWaitlistId(), updateStatusRequest.getIsActive());
         if (isUpdated) {
@@ -70,6 +84,24 @@ public class WaitlistController {
             return ResponseEntity.status(404).body("Waitlist not found.");
         }
     }
+    
+    //  Update waitlist Admin - Modify waitlist by allowing admin to remove users, averageWaitTime
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/admin/update-waitlist")
+    public ResponseEntity<String> updateWaitlist(@RequestBody UpdateWaitlistRequest request) {
+        boolean isUpdated = waitlistServiceImpl.updateWaitlist(
+            request.getWaitlistId(), 
+            request.getAverageWaitTime(), 
+            request.getRemoveUserIds()
+        );
+
+        if (isUpdated) {
+            return ResponseEntity.ok("Waitlist updated successfully.");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Waitlist not found.");
+        }
+    }
+
 
     public static class AddUserRequest {
         private String serviceOntarioCenterId;
