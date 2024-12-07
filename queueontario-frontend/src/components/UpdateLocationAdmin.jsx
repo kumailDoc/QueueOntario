@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import apiClient from "./apiClient";
 import "../styles/UpdateLocationAdmin.css"; // Import the CSS file
 import Header from "./Header";
@@ -9,9 +10,22 @@ const UpdateLocationAdmin = () => {
   const [selectedLocation, setSelectedLocation] = useState(""); // Selected location ID
   const [newAddress, setNewAddress] = useState(""); // New address input
   const [message, setMessage] = useState(""); // Success/error messages
+  const [userInfo, setUserInfo] = useState([])
+  const nav = useNavigate()
 
-  // Fetch all centers when component loads
+
   useEffect(() => {
+    const user = localStorage.getItem('userInfo')
+    if (!user) {
+      nav('/login')
+    }
+
+    const userInfo = JSON.parse(user)
+    if (userInfo.roles[0] !== 'ROLE_ADMIN') {
+      nav('/')
+    }
+
+    // Fetch all centers when component loads
     const fetchLocations = async () => {
       try {
         const response = await apiClient.get("/api/serviceontario/all-centers");
@@ -25,8 +39,8 @@ const UpdateLocationAdmin = () => {
     fetchLocations();
   }, []);
 
- // Update location handler
- const handleUpdateLocation = async () => {
+  // Update location handler
+  const handleUpdateLocation = async () => {
     if (!selectedLocation || !newAddress) {
       setMessage("Please select a location and provide a new address.");
       return;
@@ -59,7 +73,7 @@ const UpdateLocationAdmin = () => {
     <div className="main-content">
       <Header />
       <h1>Update Location</h1>
-     
+
       {message && <p className="message" style={{ color: message.includes("successfully") ? "green" : "red" }}>{message}</p>}
 
       <div className="location-select">
