@@ -1,23 +1,36 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import apiClient from "./apiClient";
 import Header from "./Header";
 import Footer from "./Footer";
-import "../styles/UpdateWaitlistAdmin.css"; 
+import "../styles/UpdateWaitlistAdmin.css";
 
 const UpdateWaitlistAdmin = () => {
   const [waitlists, setWaitlists] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [editingWaitlist, setEditingWaitlist] = useState(null); // Track which waitlist is being edited
+  const nav = useNavigate()
 
-  // Fetch waitlists on component mount
+  
   useEffect(() => {
+    const user = localStorage.getItem('userInfo')
+    if (!user) {
+      nav('/login')
+    }
+
+    const userInfo = JSON.parse(user)
+    if (userInfo.roles[0] !== 'ROLE_ADMIN') {
+      nav('/')
+    }
+
+    // Fetch waitlists on component mount
     const fetchWaitlists = async () => {
       try {
         const response = await apiClient.get("/api/waitlists/getAll");
         setWaitlists(response.data || []);
         setLoading(false);
-          
+
       } catch (err) {
         setError("Failed to fetch waitlists.");
         setLoading(false);
@@ -40,22 +53,22 @@ const UpdateWaitlistAdmin = () => {
         prevWaitlists.map((waitlist) =>
           waitlist.waitlistId === waitlistId
             ? {
-                ...waitlist,
-                waitlisters: waitlist.waitlisters.filter((user) => user !== userId),
-              }
+              ...waitlist,
+              waitlisters: waitlist.waitlisters.filter((user) => user !== userId),
+            }
             : waitlist
         )
       );
       alert("User removed successfully!");
     } catch (error) {
-        if(error.response?.status === 401){
-            setError("Your session has expired. Please login again");
-        }else if(error.response?.status === 403){
-            setError("You do not have the required permissions to perform this action.");
-        }else{
-            setError("Failed to remove user. please try again.");
+      if (error.response?.status === 401) {
+        setError("Your session has expired. Please login again");
+      } else if (error.response?.status === 403) {
+        setError("You do not have the required permissions to perform this action.");
+      } else {
+        setError("Failed to remove user. please try again.");
 
-        }
+      }
     }
   };
 
@@ -71,27 +84,27 @@ const UpdateWaitlistAdmin = () => {
       setEditingWaitlist(null);
       alert("Average wait time updated successfully!");
     } catch (error) {
-        if(error.response?.status === 401){
-            setError("Your session has expired. Please login again");
-        }else if(error.response?.status === 403){
-            setError("You do not have the required permissions to perform this action.");
-        }else{
-            setError("Failed to update average wait time.");
-        }
+      if (error.response?.status === 401) {
+        setError("Your session has expired. Please login again");
+      } else if (error.response?.status === 403) {
+        setError("You do not have the required permissions to perform this action.");
+      } else {
+        setError("Failed to update average wait time.");
+      }
       //alert("Failed to update average wait time.");
     }
   };
 
   if (loading) return <p>Loading waitlists...</p>;
   if (error) return <p>{error}</p>;
-  
+
 
   return (
     <div >
       <Header />
       <div class="main-container">
         <h2>Waitlist Management</h2>
-        
+
         <div className="scrollable-table">
           <table>
             <thead>
@@ -101,7 +114,7 @@ const UpdateWaitlistAdmin = () => {
                 <th>City</th>
                 <th>Estimated Wait Time</th>
                 <th>Waitlisters</th>
-                
+
               </tr>
             </thead>
             <tbody>
@@ -151,13 +164,13 @@ const UpdateWaitlistAdmin = () => {
                       <p>No users on the waitlist.</p>
                     )}
                   </td>
-                 
+
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-        
+
       </div>
       <Footer />
     </div>

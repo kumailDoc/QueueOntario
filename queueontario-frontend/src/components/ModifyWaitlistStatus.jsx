@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import apiClient from "./apiClient";
 import '../styles/ModifyWaitlistStatus.css'
 import Header from "./Header"
@@ -7,8 +8,19 @@ import Footer from "./Footer"
 const ModifyWaitlistStatus = () => {
   const [waitlists, setWaitlists] = useState([]);
   const [loading, setLoading] = useState(true);
+  const nav = useNavigate()
 
   useEffect(() => {
+    const user = localStorage.getItem('userInfo')
+    if (!user) {
+      nav('/login')
+    }
+
+    const userInfo = JSON.parse(user)
+    if (userInfo.roles[0] !== 'ROLE_ADMIN') {
+      nav('/')
+    }
+
     // Fetch all waitlists
     const fetchWaitlists = async () => {
       try {
@@ -51,7 +63,7 @@ const ModifyWaitlistStatus = () => {
   return (
     <div class="table-container">
 
-      <Header/>
+      <Header />
       <h1>Admin Waitlist Management</h1>
       <table>
         <thead>
@@ -85,7 +97,7 @@ const ModifyWaitlistStatus = () => {
           ))}
         </tbody>
       </table>
-      <Footer/>
+      <Footer />
     </div>
   );
 };
