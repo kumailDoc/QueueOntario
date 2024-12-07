@@ -8,6 +8,7 @@ import JoinWaitList from './components/Join';
 import About from './components/About';
 import Report from './components/Report';
 import CheckWaitlist from './components/CheckWaitlist';
+import AdminIssue from './components/AdminIssue';
 import TestComponent from './components/TestComponent';
 import ServiceCentersList from './components/ServiceCentersList';
 import ModifyWaitlistStatus from './components/ModifyWaitlistStatus';
@@ -30,6 +31,7 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/join" element={<JoinWaitList />} />
             <Route path="/reportissue" element={<Report />} />
+            <Route path="/viewissue" element={<AdminIssue />} />
             <Route path="/about" element={<About />} />
             <Route path="/servicecenters" element={<ServiceCentersList />} />   
             <Route path="/checkwaitlist" element={<CheckWaitlist />} />
