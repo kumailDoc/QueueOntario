@@ -1,13 +1,12 @@
 .issues-container {
-    max-width: 800px;
-    margin: 2rem auto;
-    padding: 1rem;
-    font-family: Arial, sans-serif;
     height: 100vh; 
     overflow-y: auto;
     width: 520px;
     margin-bottom: 5rem;
-
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 1rem;
+    font-family: Arial, sans-serif;
 }
 
 .issues-container h1 {
