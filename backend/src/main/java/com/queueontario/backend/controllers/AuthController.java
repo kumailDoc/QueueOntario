@@ -1,5 +1,6 @@
 package com.queueontario.backend.controllers;
 
+import com.queueontario.backend.payload.request.UpdateUserRequest;
 import jakarta.validation.Valid;
 import com.queueontario.backend.models.ERole;
 import com.queueontario.backend.models.Role;
@@ -126,5 +127,39 @@ public class AuthController {
         userRepository.save(user);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+    }
+
+    @PatchMapping("/edit-profile")
+    public ResponseEntity<?> updateProfile(@Valid @RequestBody UpdateUserRequest updateUserRequest) {
+        // Fetch the currently authenticated user
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
+        String currentUserId = userDetails.getId();
+        User user = userRepository.findById(currentUserId)
+                .orElseThrow(() -> new RuntimeException("Error: User not found."));
+
+        // Update fields if they are not null
+        if (updateUserRequest.getUsername() != null && !updateUserRequest.getUsername().isEmpty()) {
+            if (userRepository.existsByUsername(updateUserRequest.getUsername())) {
+                return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
+            }
+            user.setUsername(updateUserRequest.getUsername());
+        }
+
+        if (updateUserRequest.getEmail() != null && !updateUserRequest.getEmail().isEmpty()) {
+            if (userRepository.existsByEmail(updateUserRequest.getEmail())) {
+                return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
+            }
+            user.setEmail(updateUserRequest.getEmail());
+        }
+
+        if (updateUserRequest.getPassword() != null && !updateUserRequest.getPassword().isEmpty()) {
+            user.setPassword(encoder.encode(updateUserRequest.getPassword()));
+        }
+
+        // Save updated user
+        userRepository.save(user);
+        return ResponseEntity.ok(new MessageResponse("User profile updated successfully!"));
     }
 }
