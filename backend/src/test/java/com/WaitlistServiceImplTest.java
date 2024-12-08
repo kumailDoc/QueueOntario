@@ -55,7 +55,10 @@ public class WaitlistServiceImplTest {
     @Mock
     private EmailService emailService; 
 
-    // Test for Join Waitlist
+      /**
+     * Test case to add a user to the waitlist with valid inputs.
+     * This test verifies that the user is successfully added to the waitlist.
+     */
     @Test
     void testAddUserToWaitlist_ValidInputs() {
         // Arrange
@@ -100,7 +103,10 @@ public class WaitlistServiceImplTest {
         assertTrue(result.getWaitlisters().contains(userId));
     }
 
-    // Test for remove user from waitlist - Success case
+    /**
+     * Test case for successfully removing a user from the waitlist.
+     * This test verifies that the user is removed and repositories are updated.
+     */
     @Test
     void testRemoveUserFromWaitlist_Success() {
         // Arrange
@@ -132,7 +138,10 @@ public class WaitlistServiceImplTest {
     }
 
 
-    //  Test for remove user from waitlist when the user does not exist in the waitlist - Failure case
+    /**
+     * Test case for attempting to remove a user from the waitlist when the user does not exist.
+     * This test verifies that the method returns false and no changes are made to the waitlist or user repository.
+     */
     @Test
     void testRemoveUserFromWaitlist_UserNotFound() {
         // Arrange
@@ -157,7 +166,10 @@ public class WaitlistServiceImplTest {
     }
 
 
-// Test for Update average waittime and remove users (Admin function)    
+/**
+     * Test case to update the average wait time and remove specified users from the waitlist.
+     * This test verifies that the waitlist's average wait time is updated and the specified users are removed.
+     */   
 @Test
 void testUpdateWaitlist_Success() {
     // Arrange
@@ -188,7 +200,10 @@ void testUpdateWaitlist_Success() {
     verify(userWaitListRepository, times(removeUserIds.size())).deleteByUserId(anyString()); 
 }
 
-// Test for update waitlist status open/close waitlist (Admin function)
+ /**
+     * Test case for updating the status of the waitlist (open/close).
+     * This test verifies that the waitlist's status is updated successfully.
+     */
 @Test
 void testUpdateWaitlistStatus_Success() {
     // Arrange
