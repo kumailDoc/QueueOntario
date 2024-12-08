@@ -5,21 +5,22 @@ import '../styles/Header.css';
 const Header = () => {
   const navigate = useNavigate();
 
-  // Retrieve user info from localStorage (USE THIS for other components)
+  // Retrieve user info from localStorage
   const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
   // Logout function
   const handleLogout = () => {
-    // Remove user info from localStorage. 
     localStorage.removeItem('userInfo');
-
-    // Redirect to login page
     navigate('/login');
   };
 
   const handleCheckWaitlist = () => {
     navigate('/checkwaitlist');
-  }
+  };
+
+  const handleProfile = () => {
+    navigate('/profile'); // Navigate to the profile page
+  };
 
   return (
     <header className='header-body'>
@@ -33,7 +34,7 @@ const Header = () => {
       <nav className="nav-right">
         <ul>
           {userInfo ? (
-            // Display username and logout button if logged in
+            // Display username, profile, and logout buttons if logged in
             <>
               {userInfo.roles[0] === 'ROLE_ADMIN' && (
                 <li><Link to="/admin" className='adminBtn'>Admin Portal</Link></li>
@@ -43,6 +44,7 @@ const Header = () => {
               )}
               <li><button onClick={handleCheckWaitlist} className="cwaitlist-button">Check Waitlist</button></li>
               <li className='greeting'>Welcome, {userInfo.username}</li>
+              <li><button onClick={handleProfile} className="profile-button">Profile</button></li>
               <li><button onClick={handleLogout} className="logout-button">Log Out</button></li>
             </>
           ) : (

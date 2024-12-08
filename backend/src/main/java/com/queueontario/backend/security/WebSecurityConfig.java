@@ -25,6 +25,7 @@ import java.util.Arrays;
 @Configuration
 @EnableMethodSecurity
 public class WebSecurityConfig {
+
     @Autowired
     UserDetailsServiceImpl userDetailsService;
 
@@ -56,40 +57,48 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.cors(cors -> cors.configurationSource(corsConfigurationSource())) // Enable CORS with the custom configuration
-                .csrf(csrf -> csrf.disable())
-                .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        http
+                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // ✅ CORS is properly configured
+                .csrf(csrf -> csrf.disable()) // ✅ Disable CSRF since we use JWT
+                .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler)) // ✅ Handle unauthorized
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // ✅ No sessions, stateless JWT
                 .authorizeHttpRequests(auth ->
-                        auth.requestMatchers("/api/auth/**").permitAll()
-                                .requestMatchers("/api/test/**").permitAll()
-                                .requestMatchers("/api/waitlists/**").permitAll()
-                                .requestMatchers("/api/waitlists/admin/update-status").hasRole("ADMIN")
-                                .requestMatchers("/api/serviceontario/admin/update-location").hasRole("ADMIN")
-                                .requestMatchers("/api/waitlists/admin/update-waitlist").hasRole("ADMIN")
-                                .requestMatchers("/error/**").permitAll()
-                                .requestMatchers("/api/serviceontario/centers").permitAll()  // Allow public access to service centers list
-                                .requestMatchers("/api/serviceontario/centers/**").permitAll()  // In case the endpoint uses additional paths
-                                .requestMatchers("/api/report/**").permitAll()
-                                .anyRequest().authenticated()
+                        auth.requestMatchers("/api/auth/**").permitAll() // Allow public access to auth endpoints
+                                .requestMatchers("/api/test/**").permitAll() // Public access to test endpoints
+                                .requestMatchers("/api/serviceontario/centers/**").permitAll() // Public access to service centers
+                                .requestMatchers("/api/report/**").permitAll() // Public access to report endpoints
+                                .anyRequest().authenticated() // All other requests must be authenticated
                 );
 
         http.authenticationProvider(authenticationProvider());
+
+        // ✅ Ensure AuthTokenFilter runs before UsernamePasswordAuthenticationFilter
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
 
     @Bean
-    CorsConfigurationSource corsConfigurationSource() {
+    public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000")); // Set your React frontend URL here
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+
+        // ✅ Allow only the React app at localhost:3000
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
+
+        // ✅ Allow standard HTTP methods
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+
+        // ✅ Allow important headers needed for JWT and Content-Type
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type", "X-Requested-With", "Accept", "Origin"));
+
+        // ✅ Expose the Authorization header so the client can see it
+        configuration.setExposedHeaders(Arrays.asList("Authorization"));
+
+        // ✅ Allow sending credentials (cookies, tokens, etc.)
         configuration.setAllowCredentials(true);
-        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
+        source.registerCorsConfiguration("/**", configuration); // ✅ Apply CORS to all endpoints
         return source;
     }
 }
