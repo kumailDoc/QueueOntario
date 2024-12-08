@@ -15,7 +15,7 @@ const Login = ({ setUserId }) => {  // Receive setUserId as a prop
   const handleLogin = async (e) => {
     e.preventDefault();
     setErrorMessage(''); // Clear previous errors
-
+  
     try {
       const response = await fetch("http://localhost:8080/api/auth/signin", {
         method: "POST",
@@ -26,6 +26,7 @@ const Login = ({ setUserId }) => {  // Receive setUserId as a prop
         body: JSON.stringify({ username, password })
         
       });
+<<<<<<< Updated upstream
       
 
       if (!response.ok) {
@@ -35,29 +36,35 @@ const Login = ({ setUserId }) => {  // Receive setUserId as a prop
       const cookies = response.headers.get('Set-Cookie')
       localStorage.setItem('token', JSON.stringify(cookies));
       
+=======
+  
+      if (!response.ok) {
+        throw new Error('Login failed. Please check your credentials.');
+      }
+  
+>>>>>>> Stashed changes
       const data = await response.json();
-      console.log("User authenticated:", data);
-
+      console.log("Response data:", data); // Check if token exists in data
+  
+      // Check if token exists in the response and store it separately
+      if (data.token) {
+        localStorage.setItem('token', data.token); // Store just the token
+      }
+  
       // Store user information in state and localStorage
-      setUserInfo(data); // Store user info in state
-      localStorage.setItem('userInfo', JSON.stringify(data)); // Store user info in localStorage
-
-      // Pass userId to the parent component
+      setUserInfo(data); 
+      localStorage.setItem('userInfo', JSON.stringify(data)); 
+  
       setUserId(data.id);
-
-      //redirect admin to admin page after log in
+  
       if (data.roles[0] === "ROLE_ADMIN") {
         navigate('/admin')
-      }
-      else if (data.roles[0] === "ROLE_MODERATOR") //redirect moderators to mod page after log in
-      {
+      } else if (data.roles[0] === "ROLE_MODERATOR") {
         navigate('/mod')
-      }
-      else {
-        // Redirect to home page after successful login
+      } else {
         navigate('/');
       }
-
+  
     } catch (error) {
       setErrorMessage(error.message);
     }
