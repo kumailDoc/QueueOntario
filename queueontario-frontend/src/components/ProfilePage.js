@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/ProfilePage.css';
+import Header from './Header';
+import Footer from "./Footer";
 
 const ProfilePage = () => {
   const navigate = useNavigate();
@@ -81,6 +83,7 @@ const ProfilePage = () => {
 
   return (
     <div className="profile-page">
+    <Header/>
       <h2>Edit Profile</h2>
       {message && <p className="message">{message}</p>}
       
@@ -123,6 +126,7 @@ const ProfilePage = () => {
           {loading ? 'Updating...' : 'Save Changes'}
         </button>
       </form>
+      <Footer/>
     </div>
   );
 };
