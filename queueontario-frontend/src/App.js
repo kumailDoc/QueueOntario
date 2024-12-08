@@ -17,6 +17,7 @@ import UpdateLocationAdmin from './components/UpdateLocationAdmin';
 import UpdateWaitlistAdmin from './components/UpdateWaitlistAdmin';
 import AdminPortal from './components/AdminPortal';
 import ModPortal from './components/ModPortal';
+import ProfilePage from './components/ProfilePage'
 
 function App() {
   // Holds userId state. Please use for other components if needed!
@@ -36,6 +37,8 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/servicecenters" element={<ServiceCentersList />} />   
             <Route path="/checkwaitlist" element={<CheckWaitlist />} />
+            <Route path="/contact" element={<Contact/>}/>
+            <Route path='/profile' element={<ProfilePage />} />
             
             {/*For Admin/Mod Only */}
             <Route path='/admin' element={<AdminPortal />} />
@@ -46,8 +49,6 @@ function App() {
             <Route path="/mod/viewissue" element={<AdminIssue />} />
 
             {/* For Test Case */}
-            <Route path="/test" element={<TestComponent />}/>
-            <Route path="/contact" element={<Contact />} />
             <Route path="/test" element={<TestComponent />} />
           </Routes>
         </div>
