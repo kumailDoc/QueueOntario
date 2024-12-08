@@ -24,12 +24,17 @@ const Login = ({ setUserId }) => {  // Receive setUserId as a prop
         },
         credentials: 'include', // Allows cookies to be included in the request/response
         body: JSON.stringify({ username, password })
+        
       });
+      
 
       if (!response.ok) {
         throw new Error('Login failed. Please check your credentials.');
       }
 
+      const cookies = response.headers.get('Set-Cookie')
+      localStorage.setItem('token', JSON.stringify(cookies));
+      
       const data = await response.json();
       console.log("User authenticated:", data);
 

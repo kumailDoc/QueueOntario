@@ -14,6 +14,7 @@ import ModifyWaitlistStatus from './components/ModifyWaitlistStatus';
 import Contact from './components/Contact';
 import UpdateLocationAdmin from './components/UpdateLocationAdmin';
 import UpdateWaitlistAdmin from './components/UpdateWaitlistAdmin';
+import ProfilePage from './components/ProfilePage'; // Import ProfilePage
 
 function App() {
   // Holds userId state. Please use for other components if needed!
@@ -36,10 +37,10 @@ function App() {
             <Route path="/admin/update-status" element={<ModifyWaitlistStatus/>}/>
             <Route path="/admin/update-location" element={<UpdateLocationAdmin/>}/>
             <Route path="/admin/update-waitlist" element={<UpdateWaitlistAdmin/>}/>
-           
-            {/* For Test Case */}
-            <Route path="/test" element={<TestComponent />}/>
             <Route path="/contact" element={<Contact />} />
+            <Route path="/profile" element={<ProfilePage />} />
+
+            {/* For Test Case */}
             <Route path="/test" element={<TestComponent />} />
           </Routes>
         </div>
