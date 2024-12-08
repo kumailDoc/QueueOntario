@@ -45,8 +45,18 @@ const Login = ({ setUserId }) => {  // Receive setUserId as a prop
       // Pass userId to the parent component
       setUserId(data.id);
 
-      // Redirect to home page after successful login
-      navigate('/');
+      //redirect admin to admin page after log in
+      if (data.roles[0] === "ROLE_ADMIN") {
+        navigate('/admin')
+      }
+      else if (data.roles[0] === "ROLE_MODERATOR") //redirect moderators to mod page after log in
+      {
+        navigate('/mod')
+      }
+      else {
+        // Redirect to home page after successful login
+        navigate('/');
+      }
 
     } catch (error) {
       setErrorMessage(error.message);
@@ -63,14 +73,14 @@ const Login = ({ setUserId }) => {  // Receive setUserId as a prop
             <h2>Sign in</h2>
             <p>Stay up to date with waiting</p>
             {errorMessage && <p className="error-message">{errorMessage}</p>}
-            <input 
-              type="text" 
+            <input
+              type="text"
               placeholder="Email or username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
-            <input 
-              type="password" 
+            <input
+              type="password"
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}

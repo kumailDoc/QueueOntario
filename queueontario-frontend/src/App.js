@@ -8,13 +8,15 @@ import JoinWaitList from './components/Join';
 import About from './components/About';
 import Report from './components/Report';
 import CheckWaitlist from './components/CheckWaitlist';
+import AdminIssue from './components/AdminIssue';
 import TestComponent from './components/TestComponent';
 import ServiceCentersList from './components/ServiceCentersList';
 import ModifyWaitlistStatus from './components/ModifyWaitlistStatus';
 import Contact from './components/Contact';
 import UpdateLocationAdmin from './components/UpdateLocationAdmin';
 import UpdateWaitlistAdmin from './components/UpdateWaitlistAdmin';
-import ProfilePage from './components/ProfilePage'; // Import ProfilePage
+import AdminPortal from './components/AdminPortal';
+import ModPortal from './components/ModPortal';
 
 function App() {
   // Holds userId state. Please use for other components if needed!
@@ -34,11 +36,14 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/servicecenters" element={<ServiceCentersList />} />   
             <Route path="/checkwaitlist" element={<CheckWaitlist />} />
+            
+            {/*For Admin/Mod Only */}
+            <Route path='/admin' element={<AdminPortal />} />
+            <Route path='/mod' element={<ModPortal />} />
             <Route path="/admin/update-status" element={<ModifyWaitlistStatus/>}/>
             <Route path="/admin/update-location" element={<UpdateLocationAdmin/>}/>
             <Route path="/admin/update-waitlist" element={<UpdateWaitlistAdmin/>}/>
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/mod/viewissue" element={<AdminIssue />} />
 
             {/* For Test Case */}
             <Route path="/test" element={<TestComponent />} />

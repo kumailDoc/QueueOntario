@@ -79,9 +79,13 @@ nav a:hover {
   margin-left: -20px;
   font-weight: bold;
 }
-.cwaitlist-button:hover {
+.cwaitlist-button:hover, .adminBtn:hover, .modBtn:hover {
   color: white;
   background-color: black;
+}
+
+.adminBtn, .modBtn {
+  margin-left: -1010px;
 }
 
 .greeting {
