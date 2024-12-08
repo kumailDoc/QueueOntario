@@ -36,6 +36,7 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/servicecenters" element={<ServiceCentersList />} />   
             <Route path="/checkwaitlist" element={<CheckWaitlist />} />
+            <Route path="/contact" element={<Contact/>}/>
             
             {/*For Admin/Mod Only */}
             <Route path='/admin' element={<AdminPortal />} />
