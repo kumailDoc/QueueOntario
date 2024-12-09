@@ -91,16 +91,3 @@ nav a:hover {
 .greeting {
   margin-right: 10px;
 }
-
-.profile-button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.profile-button:hover {
-  background-color: #0056b3;
-}
