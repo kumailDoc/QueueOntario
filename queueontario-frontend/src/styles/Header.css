@@ -1,8 +1,9 @@
+/* General Header Styles */
 .header-body {
   background-color: #0d4d0f;
   color: white;
   width: 100%;
-  padding: 1rem 0;
+  height: 60px; 
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -11,20 +12,37 @@
   top: 0;
   left: 0;
   right: 0;
+  z-index: 10;
+  padding: 0; 
 }
 
-nav ul {
-  padding: 0;
-  margin: 0;
-  list-style: none;
+.nav-menu {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 }
 
-nav a {
+.nav-left,
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 2rem; 
+}
+
+.nav-left li,
+.nav-right li {
+  list-style: none;
+}
+
+.nav-menu ul a {
   text-decoration: none;
   color: white;
-  margin: 0 15px;
   font-weight: bold;
+}
+
+.nav-menu ul a:hover {
+  color: #0dcaf0; 
 }
 
 .logout-button {
@@ -32,12 +50,12 @@ nav a {
   border: solid 1px lightgreen;
   color: black;
   cursor: pointer;
-  padding: 0;
-  text-decoration: none;
-  font-size: inherit;
-  margin-right: 20px;
+  padding: 0.5rem 1rem;
   font-weight: bold;
+  border-radius: 5px;
+  margin-right: 20px; /* Shift logout button 20px from the right edge */
 }
+
 .logout-button:hover {
   color: white;
   background-color: black;
@@ -48,22 +66,120 @@ nav a {
   border: solid 1px lightgreen;
   color: black;
   cursor: pointer;
-  padding: 0;
-  text-decoration: none;
-  font-size: inherit;
-  margin-right: 30px;
-  margin-left: -20px;
+  padding: 0.5rem 1rem;
   font-weight: bold;
+  border-radius: 5px;
 }
-.cwaitlist-button:hover, .adminBtn:hover, .modBtn:hover, nav a:hover {
+
+.cwaitlist-button:hover {
   color: white;
   background-color: black;
 }
 
-.adminBtn, .modBtn {
-  margin-left: -1010px;
+.greeting {
+  color: white;
+  margin-right: 10px;
+  font-size: 1rem;
 }
 
-.greeting {
-  margin-right: 10px;
+/* Hamburger Icon */
+.hamburger-icon {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  margin-left: 20px;
+}
+
+.hamburger-icon .line {
+  width: 25px;
+  height: 3px;
+  background-color: white;
+  margin: 4px 0;
+  transition: all 0.3s ease;
+}
+
+/* Responsive Styles for Mobile */
+@media (max-width: 768px) {
+  .hamburger-icon {
+    display: flex;
+  }
+
+  .nav-menu {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    background-color: #0d4d0f;
+    width: 100%;
+    height: calc(100vh - 60px);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    transform: translateX(100%);
+    transition: all 0.3s ease-in-out;
+    z-index: 100;
+  }
+
+  .nav-menu.open {
+    transform: translateX(0);
+  }
+
+  .nav-menu ul {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+  }
+
+  .nav-menu ul li {
+    margin: 20px 0;
+  }
+
+  .header-body {
+    justify-content: space-between;
+    height: 60px;
+    max-height: 60px;
+  }
+
+  .nav-left,
+  .nav-right {
+    flex-direction: column;
+  }
+}
+
+@media (min-width: 769px) {
+  .hamburger-icon {
+    display: none;
+  }
+
+  .nav-menu {
+    display: flex !important;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .nav-left {
+    flex: 1;
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .nav-right {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 20px; /* This will create space for logout button */
+  }
+
+  .nav-left ul,
+  .nav-right ul {
+    display: flex;
+    gap: 2rem; 
+  }
+
+  .nav-left ul li,
+  .nav-right ul li {
+    list-style: none;
+  }
 }
