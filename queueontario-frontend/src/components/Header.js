@@ -35,10 +35,10 @@ const Header = () => {
           {userInfo ? (
             // Display username and logout button if logged in
             <>
-              {userInfo.roles[0] === 'ROLE_ADMIN' && (
+              {userInfo.roles?.[0] === 'ROLE_ADMIN' && (
                 <li><Link to="/admin" className='adminBtn'>Admin Portal</Link></li>
               )}
-              {userInfo.roles[0] === 'ROLE_MODERATOR' && (
+              {userInfo.roles?.[0] === 'ROLE_MODERATOR' && (
                 <li><Link to='/mod' className="modBtn">Mod Portal</Link></li>
               )}
               <li><button onClick={handleCheckWaitlist} className="cwaitlist-button">Check Waitlist</button></li>
