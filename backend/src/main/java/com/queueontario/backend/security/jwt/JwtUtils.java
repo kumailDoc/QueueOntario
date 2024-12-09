@@ -16,6 +16,11 @@ import com.queueontario.backend.security.services.UserDetailsImpl;
 import java.security.Key;
 import java.util.Date;
 
+/**
+ * Utility class for handling JSON Web Tokens (JWTs).
+ * This includes generating, validating, extracting information from tokens,
+ * and handling JWT cookies.
+ */
 @Component
 public class JwtUtils {
     private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
@@ -30,8 +35,11 @@ public class JwtUtils {
     private String jwtCookie;
 
     /**
-     * Extracts JWT from the Authorization header (Bearer <token>).
-     * If no Authorization header exists, it tries to retrieve it from cookies.
+     * Extracts the JWT token from the Authorization header.
+     * Falls back to cookies if the Authorization header is not present.
+     *
+     * @param request the HTTP request containing the Authorization header or cookies
+     * @return the JWT token if found, or {@code null} if no token is available
      */
     public String getJwtFromRequest(HttpServletRequest request) {
         String headerAuth = request.getHeader("Authorization");
@@ -42,12 +50,14 @@ public class JwtUtils {
             return token;
         }
 
-        // Optionally fall back to cookie-based extraction (if you still need cookies)
         return getJwtFromCookies(request);
     }
 
     /**
-     * Extract JWT from cookies (optional, fallback method)
+     * Extracts the JWT token from cookies.
+     *
+     * @param request the HTTP request containing the cookies
+     * @return the JWT token if found in cookies, or {@code null} if not present
      */
     public String getJwtFromCookies(HttpServletRequest request) {
         Cookie cookie = WebUtils.getCookie(request, jwtCookie);
@@ -61,7 +71,10 @@ public class JwtUtils {
     }
 
     /**
-     * Generate a JWT token and store it in an HTTP-only cookie (optional)
+     * Generates an HTTP-only cookie containing a JWT token.
+     *
+     * @param userPrincipal the user details for whom the token is being generated
+     * @return a {@link ResponseCookie} containing the JWT token
      */
     public ResponseCookie generateJwtCookie(UserDetailsImpl userPrincipal) {
         String jwt = generateTokenFromUsername(userPrincipal.getUsername());
@@ -70,63 +83,77 @@ public class JwtUtils {
                 .maxAge(24 * 60 * 60)
                 .httpOnly(true)
                 .build();
-        logger.info("🔥 JWT Cookie generated for user: {}", userPrincipal.getUsername());
+        logger.info("JWT Cookie generated for user: {}", userPrincipal.getUsername());
         return cookie;
     }
 
     /**
-     * Clear the JWT cookie
+     * Creates a cookie to clear the JWT token.
+     *
+     * @return a {@link ResponseCookie} with the token cleared
      */
     public ResponseCookie getCleanJwtCookie() {
         ResponseCookie cookie = ResponseCookie.from(jwtCookie, null).path("/api").build();
-        logger.info("🔥 JWT cookie cleared.");
+        logger.info("JWT cookie cleared.");
         return cookie;
     }
 
     /**
-     * Extract the username from the JWT token
+     * Extracts the username from the provided JWT token.
+     *
+     * @param token the JWT token
+     * @return the username contained in the token
+     * @throws JwtException if the token is invalid or cannot be parsed
      */
     public String getUserNameFromJwtToken(String token) {
         try {
             String username = Jwts.parserBuilder().setSigningKey(key()).build()
                     .parseClaimsJws(token).getBody().getSubject();
-            logger.info("🔥 Extracted username from JWT: {}", username);
+            logger.info("Extracted username from JWT: {}", username);
             return username;
         } catch (JwtException e) {
-            logger.error("🔥 Failed to extract username from JWT: {}", e.getMessage());
-            throw e; // Optional: Re-throw to log or handle issues more clearly
+            logger.error("Failed to extract username from JWT: {}", e.getMessage());
+            throw e;
         }
     }
 
     /**
-     * Return the signing key based on the secret
+     * Provides the signing key derived from the secret key.
+     *
+     * @return a {@link Key} object for signing and validating tokens
      */
     private Key key() {
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
     }
 
     /**
-     * Validate the JWT token
+     * Validates the provided JWT token.
+     *
+     * @param authToken the JWT token to validate
+     * @return {@code true} if the token is valid, {@code false} otherwise
      */
     public boolean validateJwtToken(String authToken) {
         try {
             Jwts.parserBuilder().setSigningKey(key()).build().parse(authToken);
-            logger.info("🔥 JWT token is valid");
+            logger.info("JWT token is valid");
             return true;
         } catch (MalformedJwtException e) {
-            logger.error("🔥 Invalid JWT token: {}", e.getMessage());
+            logger.error("Invalid JWT token: {}", e.getMessage());
         } catch (ExpiredJwtException e) {
-            logger.error("🔥 JWT token is expired: {}", e.getMessage());
+            logger.error("JWT token is expired: {}", e.getMessage());
         } catch (UnsupportedJwtException e) {
-            logger.error("🔥 JWT token is unsupported: {}", e.getMessage());
+            logger.error("JWT token is unsupported: {}", e.getMessage());
         } catch (IllegalArgumentException e) {
-            logger.error("🔥 JWT claims string is empty: {}", e.getMessage());
+            logger.error("JWT claims string is empty: {}", e.getMessage());
         }
         return false;
     }
 
     /**
-     * Generate a JWT token from a given username
+     * Generates a JWT token for the given username.
+     *
+     * @param username the username for which the token is being generated
+     * @return the generated JWT token
      */
     public String generateTokenFromUsername(String username) {
         String token = Jwts.builder()
@@ -135,7 +162,7 @@ public class JwtUtils {
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
                 .signWith(key(), SignatureAlgorithm.HS256)
                 .compact();
-        logger.info("🔥 JWT generated for username: {}", username);
+        logger.info("JWT generated for username: {}", username);
         return token;
     }
 }
