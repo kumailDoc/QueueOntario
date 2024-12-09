@@ -6,6 +6,7 @@ import '../styles/About.css';
 const Contact = () => {
   return (
     <div style={{ padding: "20px" }}>
+    <Header />
       <h1>Contact Us</h1>
       <p>Feel free to reach out to us through the following methods:</p>
       <ul>
@@ -13,6 +14,7 @@ const Contact = () => {
         <li><strong>Email:</strong> contact@example.com</li>
         <li><strong>Address:</strong> 123 Main St, Toronto, Ontario, Canada</li>
       </ul>
+      <Footer />
     </div>
   );
 };
