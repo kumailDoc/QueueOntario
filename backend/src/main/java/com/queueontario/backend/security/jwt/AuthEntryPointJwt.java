@@ -15,6 +15,11 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Component for generating, parsing, and validating JSON Web Tokens (JWTs).
+ * This component handles the creation and validation of JWTs for user authentication and authorization.
+ * It uses a secret key for signing the JWTs and can extract claims such as the username or roles from the token.
+ */
 @Component
 public class AuthEntryPointJwt implements AuthenticationEntryPoint {
 
