@@ -8,9 +8,17 @@ import JoinWaitList from './components/Join';
 import About from './components/About';
 import Report from './components/Report';
 import CheckWaitlist from './components/CheckWaitlist';
+import AdminIssue from './components/AdminIssue';
 import TestComponent from './components/TestComponent';
 import ServiceCentersList from './components/ServiceCentersList';
-import IssuesPage from './components/Issues';
+import ModifyWaitlistStatus from './components/ModifyWaitlistStatus';
+import Contact from './components/Contact';
+import UpdateLocationAdmin from './components/UpdateLocationAdmin';
+import UpdateWaitlistAdmin from './components/UpdateWaitlistAdmin';
+import AdminPortal from './components/AdminPortal';
+import ModPortal from './components/ModPortal';
+import ProfilePage from './components/ProfilePage'
+import Issues from './components/Issues';
 
 function App() {
   // Holds userId state. Please use for other components if needed!
@@ -30,9 +38,20 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/servicecenters" element={<ServiceCentersList />} />   
             <Route path="/checkwaitlist" element={<CheckWaitlist />} />
-            <Route path="/issues" element={<IssuesPage />} />
+            <Route path="/contact" element={<Contact/>}/>
+            <Route path='/profile' element={<ProfilePage />} />
+            
+            {/*For Admin/Mod Only */}
+            <Route path='/admin' element={<AdminPortal />} />
+            <Route path='/mod' element={<ModPortal />} />
+            <Route path="/admin/update-status" element={<ModifyWaitlistStatus/>}/>
+            <Route path="/admin/update-location" element={<UpdateLocationAdmin/>}/>
+            <Route path="/admin/update-waitlist" element={<UpdateWaitlistAdmin/>}/>
+            <Route path="/mod/viewissue" element={<AdminIssue />} />
+            <Route path="/mod/issue" element={<Issues />} />
+
             {/* For Test Case */}
-            <Route path="/test" element={<TestComponent />}/>
+            <Route path="/test" element={<TestComponent />} />
           </Routes>
         </div>
       </Router>

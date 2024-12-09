@@ -23,10 +23,10 @@ const IssuesPage = () => {
                         'Content-Type': 'application/json',
                     },
                 });
-        
+
                 if (response.ok) {
                     const data = await response.json();
-                    
+
                     // Sort issues by createdAt (oldest to newest)
                     const sortedIssues = data.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
                     setIssues(sortedIssues);
@@ -49,7 +49,7 @@ const IssuesPage = () => {
             const response = await fetch(`http://localhost:8080/api/report/${id}`, {
                 method: 'DELETE',
             });
-    
+
             if (response.ok) {
                 alert('Issue deleted successfully!');
                 setIssues(issues.filter(issue => issue.id !== id)); // Update the UI
