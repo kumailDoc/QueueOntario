@@ -62,10 +62,8 @@ public class JwtUtils {
     public String getJwtFromCookies(HttpServletRequest request) {
         Cookie cookie = WebUtils.getCookie(request, jwtCookie);
         if (cookie != null) {
-            logger.info("JWT extracted from Cookie: {}", cookie.getValue());
             return cookie.getValue();
         } else {
-            logger.warn("No JWT found in cookies.");
             return null;
         }
     }
@@ -146,6 +144,7 @@ public class JwtUtils {
         } catch (IllegalArgumentException e) {
             logger.error("JWT claims string is empty: {}", e.getMessage());
         }
+
         return false;
     }
 
@@ -156,13 +155,11 @@ public class JwtUtils {
      * @return the generated JWT token
      */
     public String generateTokenFromUsername(String username) {
-        String token = Jwts.builder()
+        return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
                 .signWith(key(), SignatureAlgorithm.HS256)
                 .compact();
-        logger.info("JWT generated for username: {}", username);
-        return token;
     }
 }

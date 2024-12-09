@@ -22,7 +22,6 @@ import java.io.IOException;
  * in the Spring Security context if the token is valid.
  */
 public class AuthTokenFilter extends OncePerRequestFilter {
-
     @Autowired
     private JwtUtils jwtUtils;
 
@@ -47,15 +46,11 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         try {
             // Extract and validate the JWT token
             String jwt = parseJwt(request);
-            logger.info("Token from request: {}", jwt); // Log the token
-
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
                 // Extract the username and load user details
                 String username = jwtUtils.getUserNameFromJwtToken(jwt);
-                logger.info("Username extracted from token: {}", username); // Log the username
 
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-
                 // Create authentication object and set it in the SecurityContext
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
@@ -67,7 +62,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
                 logger.warn("Token is invalid or null");
             }
         } catch (Exception e) {
-            logger.error("Cannot set user authentication: {}", e.getMessage());
+            logger.error("Cannot set user authentication: {}", e);
         }
 
         // Continue the filter chain
@@ -81,16 +76,8 @@ public class AuthTokenFilter extends OncePerRequestFilter {
      * @param request the HTTP request containing the "Authorization" header
      * @return the JWT token, or {@code null} if no valid token is found
      */
-    private String parseJwt(HttpServletRequest request) {
-        String headerAuth = request.getHeader("Authorization");
-        logger.info("Authorization header: {}", headerAuth); // Log the Authorization header
 
-        if (headerAuth != null && headerAuth.startsWith("Bearer ")) {
-            String token = headerAuth.substring(7); // Remove 'Bearer ' prefix
-            logger.info("Extracted token: {}", token); // Log the token
-            return token;
-        }
-        logger.warn("No token found in Authorization header");
-        return null;
+    private String parseJwt(HttpServletRequest request) {
+        return jwtUtils.getJwtFromRequest(request);
     }
 }
