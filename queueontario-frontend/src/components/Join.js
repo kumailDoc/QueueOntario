@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
-import "../styles/Join.css"; 
+import "../styles/Join.css";
 
 const JoinWaitList = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const { centerId } = location.state;
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
     const [formData, setFormData] = useState({
         service: "",
@@ -17,8 +18,14 @@ const JoinWaitList = () => {
     });
 
     const [error, setError] = useState(null);
+    const [successMessage, setSuccessMessage] = useState("");
 
-    //Handle input changes
+    //if user is not logged in, show the login prompt
+    if (!userInfo) {
+        return <div>Please log in to join the waitlist.</div>;
+    }
+
+    //handle form input changes
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setFormData({
@@ -28,47 +35,52 @@ const JoinWaitList = () => {
     };
 
     const handleSubmit = async (event) => {
-      event.preventDefault();
-  
-      const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-      if (!userInfo || !userInfo.id) {
-        setError('User not logged in. Please log in to join the waitlist.');
-        return;
-      }
-  
-      const userId = userInfo.id;
-  
-      try {
-        const response = await fetch('http://localhost:8080/api/waitlists/add', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            serviceOntarioCenterId: centerId, 
-            userId,
-            service: formData.service,
-            email: formData.email,
-            name: formData.name,
-            phone: formData.phone,
-          }),
-        });
-  
-        if (!response.ok) {
-          throw new Error(`Error: ${response.status}`);
-        }
-  
-        const data = await response.json();
-        console.log('Successfully joined waitlist:', data);
-  
-        //Store the waitlist data
-        localStorage.setItem('waitlistInfo', JSON.stringify(data));
+        event.preventDefault();
 
-        navigate('/checkwaitlist');
-      } catch (error) {
-        console.error('Error joining waitlist:', error);
-        setError('Failed to join the waitlist. Please try again.');
-      }
+        //ensure user is logged in
+        if (!userInfo || !userInfo.id) {
+            setError("User not logged in. Please log in to join the waitlist.");
+            return;
+        }
+
+        const userId = userInfo.id;
+
+        try {
+            const response = await fetch('http://localhost:8080/api/waitlists/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    serviceOntarioCenterId: centerId,
+                    userId,
+                    service: formData.service,
+                    email: formData.email,
+                    name: formData.name,
+                    phone: formData.phone,
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log('Successfully joined waitlist:', data);
+
+            //Store the waitlist data
+            localStorage.setItem('waitlistInfo', JSON.stringify(data));
+
+            setSuccessMessage("Successfully joined the waitlist!");
+
+            setTimeout(() => {
+                navigate('/checkwaitlist');
+            }, 1500);  
+
+        } catch (error) {
+            console.error('Error joining waitlist:', error);
+            setError('Failed to join the waitlist. Please try again.');
+        }
     };
 
     return (
@@ -77,6 +89,7 @@ const JoinWaitList = () => {
             <div className="join-container">
                 <h1>Join Waitlist</h1>
                 {error && <p className="error-message">{error}</p>}
+                {successMessage && <p className="success-message">{successMessage}</p>}
                 <form className="join-form" onSubmit={handleSubmit}>
                     <label htmlFor="service">Service:</label>
                     <select
