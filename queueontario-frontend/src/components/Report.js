@@ -9,24 +9,6 @@ const Report = () => {
   const [comments, setComments] = useState('');
   const [email, setEmail] = useState(''); 
 
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   //handle submission
-  //   const reportData = {
-  //     name,
-  //     issue,
-  //     comments,
-  //     email, 
-  //   };
-
-  //   console.log('Report submitted:', reportData);
-
-  //   setName('');
-  //   setIssue('');
-  //   setComments('');
-  //   setEmail(''); 
-  // };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     const reportData = { name, issue, comments, email };

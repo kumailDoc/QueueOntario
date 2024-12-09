@@ -38,7 +38,7 @@ const UpdateWaitlistAdmin = () => {
     };
 
     fetchWaitlists();
-  }, []);
+  }, [nav]);
 
   // Handle remove user
   const handleRemoveUser = async (waitlistId, userId) => {
@@ -100,9 +100,9 @@ const UpdateWaitlistAdmin = () => {
 
 
   return (
-    <div >
+    <div className="main-container">
       <Header />
-      <div class="main-container">
+      <div className="inner-container">
         <h2>Waitlist Management</h2>
 
         <div className="scrollable-table">
