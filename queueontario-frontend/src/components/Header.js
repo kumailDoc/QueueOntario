@@ -42,7 +42,7 @@ const Header = () => {
                 <li><Link to='/mod' className="modBtn">Mod Portal</Link></li>
               )}
               <li><button onClick={handleCheckWaitlist} className="cwaitlist-button">Check Waitlist</button></li>
-              <li className='greeting'>Welcome, {userInfo.username}</li>
+              <li><Link to='/profile' className='greeting'>Welcome, {userInfo.username}</Link></li>
               <li><button onClick={handleLogout} className="logout-button">Log Out</button></li>
             </>
           ) : (

@@ -27,30 +27,6 @@ nav a {
   font-weight: bold;
 }
 
-nav a:hover {
-  color: blue;
-}
-
-.logout-text {
-  cursor: pointer;
-  color: #fff;
-  margin: 0 15px;
-  transition: background-color 0.3s; /* Add transition for smooth color change */
-}
-
-.logout-text:hover {
-  color: blue;
-}
-
-.user-info {
-  margin-right: 15px; /* Adjust spacing as needed */
-  color: white; /* Set initial color */
-}
-
-.user-info:hover {
-  color: blue; /* Change color on hover */
-}
-
 .logout-button {
   background: lightgreen;
   border: solid 1px lightgreen;
@@ -79,7 +55,7 @@ nav a:hover {
   margin-left: -20px;
   font-weight: bold;
 }
-.cwaitlist-button:hover, .adminBtn:hover, .modBtn:hover {
+.cwaitlist-button:hover, .adminBtn:hover, .modBtn:hover, nav a:hover {
   color: white;
   background-color: black;
 }
