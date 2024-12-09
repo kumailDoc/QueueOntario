@@ -25,7 +25,7 @@ const ModPortal = () => {
     }
     const handleClick = () => {
 
-        nav('/mod/viewissue')
+        nav('/mod/issues')
     }
 
     return (
@@ -45,10 +45,7 @@ const ModPortal = () => {
             </main>
             <Footer />
         </div>
-
     )
-
-
 
 }
 

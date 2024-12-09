@@ -2,11 +2,13 @@
     height: 100vh; 
     overflow-y: auto;
     width: 520px;
-    margin-bottom: 5rem;
+    margin-top: 30%;
     max-width: 800px;
-    margin: 2rem auto;
-    padding: 1rem;
     font-family: Arial, sans-serif;
+}
+
+.issues-inner {
+    margin-bottom: 30%;
 }
 
 .issues-container h1 {
@@ -94,3 +96,4 @@
 .issue-createdAt:hover {
 color: blue; /* Change to blue on hover */
 }
+

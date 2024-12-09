@@ -26,9 +26,9 @@ body, html {
   padding: 30px; 
   background-color: white;
   width: 550px; 
-  height: 600px;
+  height: 500px;
   box-sizing: border-box; 
-  margin-top: 100px;
+  margin-top: 10%;
 }
 
 .signin-form {

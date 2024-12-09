@@ -70,6 +70,7 @@ const IssuesPage = () => {
 
     return (
         <div className="issues-container">
+        <div className='issues-inner'>
             <Header />
             <h1>Reported Issues</h1>
             {error && <p className="error-message">{error}</p>}
@@ -104,6 +105,7 @@ const IssuesPage = () => {
         </ul>
             </ul>
             <Footer />
+            </div>
         </div>
     );
 };
