@@ -5,12 +5,12 @@ import Footer from "./Footer";
 import '../styles/Login.css';
 import logo from '../assets/logo.JPG';
 
-const Login = ({ setUserId }) => {
+const Login = ({ setUserId }) => {  // Receive setUserId as a prop
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const [userInfo, setUserInfo] = useState(null); 
-  const navigate = useNavigate(); 
+  const [userInfo, setUserInfo] = useState(null); // To store user details on successful login
+  const navigate = useNavigate(); // Initialize navigate for redirecting
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -22,6 +22,7 @@ const Login = ({ setUserId }) => {
         headers: {
           "Content-Type": "application/json"
         },
+        credentials: 'include', // Allows cookies to be included in the request/response
         body: JSON.stringify({ username, password })
       });
 
@@ -32,34 +33,28 @@ const Login = ({ setUserId }) => {
       const data = await response.json();
       console.log("User authenticated:", data);
 
-      // Extract token from the response body
-      const token = data.token;
-
-      // Store user information and token in localStorage
-      localStorage.setItem('userInfo', JSON.stringify(data)); // Store the entire user info
-      localStorage.setItem('token', token); // Store the token separately
-
-      // Update user info state
-      setUserInfo(data); 
+      // Store user information in state and localStorage
+      setUserInfo(data); // Store user info in state
+      localStorage.setItem('userInfo', JSON.stringify(data)); // Store user info in localStorage
 
       // Pass userId to the parent component
-      if (setUserId) {
-        setUserId(data.id);
-      }
+      setUserId(data.id);
 
-      // Redirect user based on role
-      if (data.roles.includes("ROLE_ADMIN")) {
-        navigate('/admin');
-      } else if (data.roles.includes("ROLE_MODERATOR")) {
-        navigate('/mod');
-      } else {
-        // Redirect to home page if not admin or moderator
+      //redirect admin to admin page after log in
+      if (data.roles[0] === "ROLE_ADMIN") {
+        navigate('/admin')
+      }
+      else if (data.roles[0] === "ROLE_MODERATOR") //redirect moderators to mod page after log in
+      {
+        navigate('/mod')
+      }
+      else {
+        // Redirect to home page after successful login
         navigate('/');
       }
 
     } catch (error) {
-      console.error('Error logging in:', error);
-      setErrorMessage('Login failed. Please check your credentials and try again.');
+      setErrorMessage(error.message);
     }
   };
 
@@ -78,14 +73,12 @@ const Login = ({ setUserId }) => {
               placeholder="Email or username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              required
             />
             <input
               type="password"
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              required
             />
             <a href="#" className="forgot-password">Forgot password?</a>
             <button type="submit">Login</button>
