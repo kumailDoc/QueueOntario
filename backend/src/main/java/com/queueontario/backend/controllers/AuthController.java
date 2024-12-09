@@ -29,9 +29,11 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-
-
-
+/**
+ * Controller for user authentication related operations.
+ * This controller exposes APIs for user registration, login,
+ * edit profile and fetching user data
+ */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
@@ -51,6 +53,12 @@ public class AuthController {
     @Autowired
     JwtUtils jwtUtils;
 
+    /**
+     * Authenticates a user based on their login credentials.
+     * This method HTTP POST requests to the '/api/auth/signin' endpoint.
+     * @param loginRequest the request body containing the user's signin credentials
+     * @return a ResponseEntity containing the login result and a JWT token if successful
+     */
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
@@ -74,6 +82,12 @@ public class AuthController {
                         roles));
     }
 
+    /**
+     * Registers a new user with the specified details.
+     * This method handles HTTP POST to the '/api/auth/signup' endpoint
+     * @param signUpRequest the signup request with the user's registration details
+     * @return a ResponseEntity containing the registration result and status
+     */
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
@@ -129,6 +143,13 @@ public class AuthController {
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 
+    /**
+     * Retrieves the details of the user and updates those details.
+     * This method handles HTTP PATCH requests to the  '/api/auth/edit-profile' endpoint.
+     * 
+     * @param updateUserRequest the update request
+     * @return a ResponseEntity message if the patch is successful
+     */
     @PatchMapping("/edit-profile")
     public ResponseEntity<?> updateProfile(@Valid @RequestBody UpdateUserRequest updateUserRequest) {
         // Fetch the currently authenticated user
