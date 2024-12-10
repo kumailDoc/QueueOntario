@@ -17,6 +17,7 @@ import UpdateLocationAdmin from './components/UpdateLocationAdmin';
 import UpdateWaitlistAdmin from './components/UpdateWaitlistAdmin';
 import AdminPortal from './components/AdminPortal';
 import ModPortal from './components/ModPortal';
+import Issues from './components/Issues';
 
 function App() {
   // Holds userId state. Please use for other components if needed!
@@ -25,7 +26,7 @@ function App() {
   return (
     <AuthProvider> 
       <Router>
-        <div className="container">
+        <div>
           <Routes>
             {/* Pass userId to HomePage and setUserId to Login */}
             <Route exact path="/" element={<HomePage userId={userId} />} />
@@ -44,6 +45,8 @@ function App() {
             <Route path="/admin/update-location" element={<UpdateLocationAdmin/>}/>
             <Route path="/admin/update-waitlist" element={<UpdateWaitlistAdmin/>}/>
             <Route path="/mod/viewissue" element={<AdminIssue />} />
+            <Route path="/mod/issues" element={<Issues />} />
+
 
             {/* For Test Case */}
             <Route path="/test" element={<TestComponent />}/>
